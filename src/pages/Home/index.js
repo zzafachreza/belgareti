@@ -57,8 +57,8 @@ const MyListTarget = ({ kategori, logo, target, pj }) => {
         }}>
 
           <Image source={logo} style={{
-            width: 60,
-            height: 60,
+            width: 50,
+            height: 50,
             borderRadius: 30,
           }} />
 
@@ -73,12 +73,12 @@ const MyListTarget = ({ kategori, logo, target, pj }) => {
         }}>
           <Text style={{
             fontFamily: fonts.primary[400],
-            fontSize: 15,
+            fontSize: 14,
             color: colors.primary
           }}>TARGET</Text>
           <Text style={{
             fontFamily: fonts.primary.normal,
-            fontSize: 35,
+            fontSize: 30,
             color: warnaTarget
           }}>{target}%</Text>
         </View>
@@ -90,12 +90,12 @@ const MyListTarget = ({ kategori, logo, target, pj }) => {
         }}>
           <Text style={{
             fontFamily: fonts.primary[400],
-            fontSize: 15,
+            fontSize: 14,
             color: colors.primary
           }}>PJ</Text>
           <Text style={{
             fontFamily: fonts.primary.normal,
-            fontSize: 35,
+            fontSize: 30,
             color: warnaPJ
           }}>{pj}%</Text>
         </View>
@@ -108,6 +108,7 @@ const MyListTarget = ({ kategori, logo, target, pj }) => {
 export default function Home({ navigation }) {
 
   const [user, setUser] = useState({});
+  const [data, setData] = useState([{ "kategori": "Jayagiri", "target": 0 }, { "kategori": "Villa", "target": 0 }, { "kategori": "RnV", "target": 0 }, { "kategori": "Kebun", "target": 0 }]);
   const isFocused = useIsFocused();
   useEffect(() => {
 
@@ -121,6 +122,11 @@ export default function Home({ navigation }) {
     getData('user').then(res => {
       setUser(res);
     });
+
+    axios.post(apiURL + 'get_target_all').then(res => {
+      console.log(res.data);
+      setData(res.data)
+    })
   }
 
   const btnKeluar = () => {
@@ -296,10 +302,12 @@ export default function Home({ navigation }) {
       <View style={{
         flex: 1,
       }}>
-        <MyListTarget kategori="Jayagiri" logo={require('../../assets/jayagiri.png')} target={30} pj={90} />
-        <MyListTarget kategori="Villa" logo={require('../../assets/logo.png')} target={70} pj={100} />
-        <MyListTarget kategori="RnV" logo={require('../../assets/rv.png')} target={30} pj={90} />
-
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <MyListTarget kategori="Jayagiri" logo={require('../../assets/jayagiri.png')} target={data[0].target} pj={90} />
+          <MyListTarget kategori="Villa" logo={require('../../assets/logo.png')} target={data[1].target} pj={100} />
+          <MyListTarget kategori="RnV" logo={require('../../assets/rv.png')} target={data[2].target} pj={90} />
+          <MyListTarget kategori="Keun" logo={require('../../assets/farm.png')} target={data[3].target} pj={90} />
+        </ScrollView>
       </View>
 
       <View style={{
@@ -314,9 +322,9 @@ export default function Home({ navigation }) {
           <TouchableOpacity onPress={() => navigation.navigate('Belgareti')} style={{
             justifyContent: 'center',
             alignItems: 'center',
-            width: 70,
-            borderRadius: 40,
-            height: 70,
+            width: 60,
+            borderRadius: 30,
+            height: 60,
             backgroundColor: colors.primary,
           }}>
             <Text style={{
@@ -333,15 +341,15 @@ export default function Home({ navigation }) {
           }}>Belgareti</Text>
         </View>
         <View>
-          <TouchableOpacity style={{
+          <TouchableOpacity onPress={() => navigation.navigate('AAAtur')} style={{
             justifyContent: 'center',
             alignItems: 'center',
-            width: 70,
-            borderRadius: 40,
-            height: 70,
+            width: 60,
+            borderRadius: 30,
+            height: 60,
             backgroundColor: colors.primary,
           }}>
-            <Icon type='ionicon' name='person' size={30} color={colors.white} />
+            <Icon type='ionicon' name='person' size={25} color={colors.white} />
           </TouchableOpacity>
           <Text style={{
             textAlign: 'center',
@@ -350,15 +358,15 @@ export default function Home({ navigation }) {
           }}>Admin</Text>
         </View>
         <View>
-          <TouchableOpacity style={{
+          <TouchableOpacity onPress={() => navigation.navigate('PJSaya')} style={{
             justifyContent: 'center',
             alignItems: 'center',
-            width: 70,
-            borderRadius: 40,
-            height: 70,
+            width: 60,
+            borderRadius: 30,
+            height: 60,
             backgroundColor: colors.primary,
           }}>
-            <Icon type='ionicon' name='briefcase' size={30} color={colors.white} />
+            <Icon type='ionicon' name='briefcase' size={25} color={colors.white} />
           </TouchableOpacity>
           <Text style={{
             textAlign: 'center',

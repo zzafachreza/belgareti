@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View, Image, FlatList, ActivityIndicator, Dimensions, ImageBackground } from 'react-native'
+import { Alert, StyleSheet, Text, View, Image, Modal, FlatList, ActivityIndicator, Dimensions, ImageBackground } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { apiURL, getData, MYAPP, storeData } from '../../utils/localStorage';
@@ -17,18 +17,30 @@ import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import { color } from 'react-native-elements/dist/helpers';
 import MyCarouser from '../../components/MyCarouser';
+import MyMenu from '../../components/MyMenu';
 
-const MyListTarget = ({ kategori, logo, target = null, judul, detail, point = null, uang = null }) => {
+const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = null, judul, detail, point = null, uang = null, jenis = null }) => {
 
     let warnaTarget = colors.hijau;
-    if (target >= 80 && target <= 100) {
+    let persent = (target_avg / target).toFixed(2) * 100;
+
+    if (persent >= 80 && persent <= 100) {
         warnaTarget = colors.hijau
-    } else if (target >= 50 && target < 80) {
+    } else if (persent >= 50 && persent < 80) {
         warnaTarget = colors.kuning
-    } else if (target >= 0 && target < 50) {
+    } else if (persent >= 0 && persent < 50) {
         warnaTarget = colors.merah
     }
 
+    let infotarget = '';
+
+    if (jenis == '%') {
+        infotarget = `Min ${new Intl.NumberFormat().format(target)}${jenis}`;
+    } else if (jenis == 'Point') {
+        infotarget = `Min ${new Intl.NumberFormat().format(target)} ${jenis}`;
+    } else if (jenis == 'Rp') {
+        infotarget = `${jenis} ${new Intl.NumberFormat().format(target)}`;
+    }
 
 
 
@@ -36,7 +48,7 @@ const MyListTarget = ({ kategori, logo, target = null, judul, detail, point = nu
         <>
             {/* RnV */}
 
-            <View style={{
+            <TouchableOpacity onPress={onPress} style={{
                 flexDirection: 'row', marginHorizontal: '7%', marginVertical: '1%', borderRadius: 10, backgroundColor: colors.white,
                 borderWidth: 2,
             }}>
@@ -49,21 +61,32 @@ const MyListTarget = ({ kategori, logo, target = null, judul, detail, point = nu
 
 
                 }}>
-                    {target != null && <Text style={{
+                    {target_avg != null && jenis == '%' && <Text style={{
                         fontFamily: fonts.primary[600],
-                        fontSize: 35,
+                        fontSize: 25,
                         color: warnaTarget
-                    }}>{target}%</Text>}
-                    {point != null && <Text style={{
+                    }}>{target_avg}%</Text>}
+                    {target_avg != null && jenis == 'Point' && <Text style={{
                         fontFamily: fonts.primary[600],
-                        fontSize: 35,
+                        fontSize: 25,
                         color: warnaTarget
-                    }}>{point}</Text>}
-                    {uang != null && <Text style={{
-                        fontFamily: fonts.primary[600],
-                        fontSize: 35,
-                        color: warnaTarget
-                    }}>{uang}JT</Text>}
+                    }}>{target_avg}</Text>}
+                    {target_avg != null && jenis == 'Rp' &&
+
+                        <View>
+                            <Text style={{
+                                fontFamily: fonts.primary[600],
+                                fontSize: 25,
+                                color: warnaTarget
+                            }}>{(target_avg / 1000000).toFixed(2)} JT</Text>
+                            <Text style={{
+                                fontFamily: fonts.primary[400],
+                                fontSize: 10,
+                                color: warnaTarget
+                            }}>Rp. {new Intl.NumberFormat().format(target_avg)}</Text>
+                        </View>
+
+                    }
                 </View>
                 <View style={{
                     flex: 1,
@@ -71,24 +94,30 @@ const MyListTarget = ({ kategori, logo, target = null, judul, detail, point = nu
                 }}>
                     <Text style={{
                         fontFamily: fonts.primary[600],
-                        fontSize: 15,
+                        fontSize: 14,
                         color: colors.primary
                     }}>{judul}</Text>
                     <Text style={{
                         fontFamily: fonts.primary[400],
-                        fontSize: 15,
+                        fontSize: 14,
                         color: colors.primary
                     }}>{detail}</Text>
+                    <Text style={{
+                        fontFamily: fonts.primary[400],
+                        fontSize: 12,
+                        color: colors.primary
+                    }}>( {infotarget} ) </Text>
                 </View>
-            </View>
+            </TouchableOpacity>
         </>
     )
 }
 
 
 export default function Belgareti({ navigation }) {
-
+    const [modalVisible, setModalVisible] = useState(false);
     const [user, setUser] = useState({});
+    const [data, setData] = useState([]);
     const isFocused = useIsFocused();
     useEffect(() => {
 
@@ -102,6 +131,17 @@ export default function Belgareti({ navigation }) {
         getData('user').then(res => {
             setUser(res);
         });
+        axios.post(apiURL + 'target').then(res => {
+            console.log('target', res.data);
+            setData(res.data);
+
+
+        })
+    }
+
+    const getKategoriData = (mydata, x) => {
+
+        return mydata.filter(i => i.kategori.toLowerCase().indexOf(x.toLowerCase()) > -1);
     }
 
 
@@ -123,6 +163,9 @@ export default function Belgareti({ navigation }) {
             position: 'relative'
         }}>
 
+
+
+
             <View style={{
                 top: windowHeight / 2.5,
                 position: 'absolute',
@@ -138,54 +181,7 @@ export default function Belgareti({ navigation }) {
                 <Text style={{ fontFamily: fonts.primary.normal, color: colors.kuning, fontSize: 30, textAlign: 'center' }}>B</Text>
             </View>
             {/* header */}
-            <View style={{
-
-                flexDirection: 'row',
-            }}>
-                <View style={{
-                    flex: 1,
-                    paddingLeft: '7%',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    <View>
-                        <Image style={{
-                            width: 40,
-                            height: 40,
-                            borderRadius: 40
-                        }} source={{
-                            uri: user.foto_user
-                        }} />
-                    </View>
-                    <View style={{
-                        left: 10,
-                        justifyContent: 'center'
-                    }}>
-                        <Text style={{
-                            fontFamily: fonts.primary[600],
-                            fontSize: 20,
-                            color: colors.primary
-                        }}>{user.nama_lengkap}</Text>
-
-                    </View>
-                </View>
-                <TouchableOpacity style={{
-                    backgroundColor: colors.secondary,
-                    height: 70,
-                    width: 70,
-                    borderBottomLeftRadius: 100,
-                    alignItems: 'flex-end',
-                    padding: 5
-                }}>
-                    <Icon type='ionicon' name='menu-outline' size={35} color={colors.white} />
-                    <Text style={{
-                        fontFamily: fonts.primary.normal,
-                        color: colors.white,
-                        fontSize: 15,
-                    }}>MENU</Text>
-                </TouchableOpacity>
-            </View>
+            <MyHeader img={user.foto_user} user={user.nama_lengkap} onPress={() => setModalVisible(true)} />
             <View style={{
                 marginHorizontal: '7%'
             }}>
@@ -197,7 +193,7 @@ export default function Belgareti({ navigation }) {
                     marginBottom: 10,
                 }}>Belgareti</Text>
 
-                <TouchableOpacity style={{
+                <TouchableOpacity onPress={() => navigation.navigate('TargetAdd')} style={{
                     borderWidth: 2,
                     borderColor: colors.primary,
                     padding: 10,
@@ -226,34 +222,89 @@ export default function Belgareti({ navigation }) {
 
 
 
-            <View style={{
-                flex: 1,
-                marginTop: 10,
-            }}>
-                <Text style={{
-                    marginHorizontal: '7%',
-                    marginTop: '1%',
-                    fontFamily: fonts.primary.normal,
-                    fontSize: 20,
-                }}>Jayagiri</Text>
-                <MyListTarget target={100} judul="Jayafiri Guesthouse Hunian Kamar" detail="(Min 70%)" />
-                <MyListTarget point={1} judul="Jayafiri Guesthouse Complaint" detail="(Point Min 0)" />
-                <MyListTarget uang={0.23} judul="Jayafiri Guesthouse Rata rata Harga Kamar" detail="Rp. 280.000" />
+            <ScrollView>
+                <View style={{
+                    flex: 1,
+                    marginTop: 10,
+                }}>
+                    <Text style={{
+                        marginHorizontal: '7%',
+                        marginTop: '1%',
+                        fontFamily: fonts.primary.normal,
+                        fontSize: 20,
+                    }}>Jayagiri</Text>
+
+                    {
+                        getKategoriData(data, 'Jayagiri').map(i => {
+                            return (
+
+                                <MyListTarget onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
+                            )
+                        })
+                    }
+
+                    <Text style={{
+                        marginHorizontal: '7%',
+                        marginTop: '1%',
+                        fontFamily: fonts.primary.normal,
+                        fontSize: 20,
+                    }}>Villa</Text>
+                    {
+                        getKategoriData(data, 'Villa').map(i => {
+                            return (
+
+                                <MyListTarget onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
+                            )
+                        })
+                    }
+
+                    <Text style={{
+                        marginHorizontal: '7%',
+                        marginTop: '1%',
+                        fontFamily: fonts.primary.normal,
+                        fontSize: 20,
+                    }}>RnV</Text>
+                    {
+                        getKategoriData(data, 'RnV').map(i => {
+                            return (
+
+                                <MyListTarget onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
+                            )
+                        })
+                    }
+
+                    <Text style={{
+                        marginHorizontal: '7%',
+                        marginTop: '1%',
+                        fontFamily: fonts.primary.normal,
+                        fontSize: 20,
+                    }}>Kebun</Text>
+                    {
+                        getKategoriData(data, 'Kebun').map(i => {
+                            return (
+
+                                <MyListTarget onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
+                            )
+                        })
+                    }
 
 
-                <Text style={{
-                    marginHorizontal: '7%',
-                    marginTop: '1%',
-                    fontFamily: fonts.primary.normal,
-                    fontSize: 20,
-                }}>Villa</Text>
-                <MyListTarget target={70} judul="Bosca" detail="Perbaikan Villa (Max 70%)" />
-                <MyListTarget point={0} judul="Bosca" detail="Complain (Point Min 0)" />
-                <MyListTarget uang={15} judul="Bosca" detail="Total Pendapatan (Rp. 20.000.000)" />
-
-            </View>
+                </View>
+            </ScrollView>
 
 
+            <Modal
+                animationInTiming={1000}
+                animationIn="slideInRight"
+                animationOut="SlideOitRight"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}>
+                <MyMenu />
+            </Modal>
+            {/* menu */}
 
         </SafeAreaView >
 

@@ -24,6 +24,13 @@ import {
   Minimal,
   Success,
   Belgareti,
+  TargetAdd,
+  TargetDetail,
+  TargetDetailAdd,
+  PJSaya,
+  PJList,
+  PJListAdd,
+  PJListEdit,
 } from '../pages';
 import { colors } from '../utils';
 import { Icon } from 'react-native-elements';
@@ -54,6 +61,30 @@ export default function Router() {
       <Stack.Screen
         name="Belgareti"
         component={Belgareti}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="TargetAdd"
+        component={TargetAdd}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="TargetDetail"
+        component={TargetDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="TargetDetailAdd"
+        component={TargetDetailAdd}
         options={{
           headerShown: false,
         }}
@@ -302,6 +333,43 @@ export default function Router() {
       />
 
 
+      {/* NEW BELGARETI */}
+
+
+      <Stack.Screen
+        name="PJSaya"
+        component={PJSaya}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+
+      <Stack.Screen
+        name="PJList"
+        component={PJList}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PJListAdd"
+        component={PJListAdd}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="PJListEdit"
+        component={PJListEdit}
+        options={{
+          headerShown: false,
+        }}
+      />
 
 
 

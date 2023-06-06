@@ -20,6 +20,13 @@ import Laporan from './Laporan';
 import Minimal from './Minimal';
 import Success from './Success';
 import Belgareti from './Belgareti';
+import TargetAdd from './TargetAdd';
+import TargetDetail from './TargetDetail';
+import TargetDetailAdd from './TargetDetailAdd';
+import PJSaya from './PJSaya';
+import PJList from './PJList';
+import PJListAdd from './PJListAdd';
+import PJListEdit from './PJListEdit';
 
 // produk
 
@@ -27,8 +34,6 @@ import Belgareti from './Belgareti';
 
 
 // NEW
-
-
 
 
 
@@ -63,6 +68,15 @@ export {
   Transaksi,
   Laporan,
   Minimal,
-  Belgareti
+  Belgareti,
+  TargetAdd,
+  TargetDetail,
+  TargetDetailAdd,
+  PJSaya,
+  PJList,
+  PJListAdd,
+  PJListEdit
+
+
 
 };

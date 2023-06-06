@@ -17,27 +17,7 @@ import { Icon } from 'react-native-elements';
 
 
 
-export default function AAAtur({ navigation }) {
-
-    const btnKeluar = () => {
-        Alert.alert(MYAPP, 'Apakah kamu yakin akan keluar ?', [
-            {
-                text: 'Batal',
-                style: "cancel"
-            },
-            {
-                text: 'Keluar',
-                onPress: () => {
-                    storeData('user', null);
-
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Splash' }],
-                    });
-                }
-            }
-        ])
-    };
+export default function PJList({ navigation }) {
 
 
     return (
@@ -98,7 +78,7 @@ export default function AAAtur({ navigation }) {
             <View style={{
                 padding: 20,
             }}>
-                <MyButton onPress={btnKeluar} warna={colors.black} title="Keluar" Icons="log-out" iconColor={colors.white} colorText={colors.white} />
+                <MyButton onPress={() => navigation.navigate('PJListAdd')} warna={colors.black} title="Tambah PJ List" Icons="duplicate" iconColor={colors.white} colorText={colors.white} />
             </View>
         </SafeAreaView>
     )
