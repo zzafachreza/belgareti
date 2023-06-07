@@ -57,7 +57,9 @@ export default function AAAtur({ navigation }) {
                     padding: 20,
                     marginVertical: 2
                 }}>
+                    <Icon type='ionicon' name='person-outline' size={20} />
                     <Text style={{
+                        left: 5,
                         flex: 1,
                         fontFamily: fonts.primary[600],
                         fontSize: windowWidth / 20,
@@ -71,7 +73,9 @@ export default function AAAtur({ navigation }) {
                     padding: 20,
                     marginVertical: 2
                 }}>
+                    <Icon type='ionicon' name='heart-outline' size={20} />
                     <Text style={{
+                        left: 5,
                         flex: 1,
                         fontFamily: fonts.primary[600],
                         fontSize: windowWidth / 20,
@@ -79,19 +83,37 @@ export default function AAAtur({ navigation }) {
                     }}>Daftar PJ</Text>
                     <Icon type='ionicon' name='chevron-forward' color={colors.black} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Minimal')} style={{
+                <TouchableOpacity onPress={() => navigation.navigate('Waktu')} style={{
                     flexDirection: 'row',
                     padding: 20,
                     marginVertical: 2
                 }}>
+                    <Icon type='ionicon' name='time-outline' size={20} />
                     <Text style={{
+                        left: 5,
                         flex: 1,
                         fontFamily: fonts.primary[600],
                         fontSize: windowWidth / 20,
                         color: colors.black
-                    }}>Minimal Stok</Text>
+                    }}>Countdown</Text>
                     <Icon type='ionicon' name='chevron-forward' color={colors.black} />
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Pengguna')} style={{
+                    flexDirection: 'row',
+                    padding: 20,
+                    marginVertical: 2
+                }}>
+                    <Icon type='ionicon' name='people-outline' size={20} />
+                    <Text style={{
+                        left: 5,
+                        flex: 1,
+                        fontFamily: fonts.primary[600],
+                        fontSize: windowWidth / 20,
+                        color: colors.black
+                    }}>Pengguna</Text>
+                    <Icon type='ionicon' name='chevron-forward' color={colors.black} />
+                </TouchableOpacity>
+
 
             </View>
 

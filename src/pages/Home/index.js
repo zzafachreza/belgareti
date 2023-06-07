@@ -15,6 +15,7 @@ import 'intl';
 import 'intl/locale-data/jsonp/en';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
+import 'moment/locale/id';
 import { color } from 'react-native-elements/dist/helpers';
 import MyCarouser from '../../components/MyCarouser';
 
@@ -108,12 +109,33 @@ const MyListTarget = ({ kategori, logo, target, pj }) => {
 export default function Home({ navigation }) {
 
   const [user, setUser] = useState({});
-  const [data, setData] = useState([{ "kategori": "Jayagiri", "target": 0 }, { "kategori": "Villa", "target": 0 }, { "kategori": "RnV", "target": 0 }, { "kategori": "Kebun", "target": 0 }]);
+  const [data, setData] = useState([{ "kategori": "Jayagiri", "target": 0, "pj": 0 }, { "kategori": "Villa", "target": 0, "pj": 0 }, { "kategori": "RnV", "target": 0, "pj": 0 }, { "kategori": "Kebun", "target": 0, "pj": 0 }]);
+
   const isFocused = useIsFocused();
+  const [loading, setLoading] = useState(true);
+  const [waktu, setWaktu] = useState({
+    tanggal_awal: moment().format('YYYY-MM-DD'),
+    tanggal_aakhir: moment().format('YYYY-MM-DD'),
+  });
+
+  const __getWaktu = () => {
+
+    axios.post(apiURL + 'waktu').then(res => {
+      console.log(res.data);
+      setWaktu(res.data);
+
+      setLoading(false);
+
+    })
+
+  }
+
+
   useEffect(() => {
 
     if (isFocused) {
       __getTransaction();
+      __getWaktu();
     }
 
   }, [isFocused]);
@@ -251,7 +273,7 @@ export default function Home({ navigation }) {
             fontFamily: fonts.primary[400],
             fontSize: 15,
             color: colors.white
-          }}>Jabatan : {'Direktur'}</Text>
+          }}>Jabatan : {user.jabatan}</Text>
         </View>
       </View>
 
@@ -276,7 +298,7 @@ export default function Home({ navigation }) {
             fontFamily: fonts.primary.normal,
             fontSize: 35,
             color: colors.hijau
-          }}>30 Hari</Text>
+          }}>{loading ? '0 Hari' : moment(waktu.tanggal_awal).toNow(true)}</Text>
         </View>
         <View style={{
           marginLeft: 2,
@@ -296,17 +318,23 @@ export default function Home({ navigation }) {
             fontFamily: fonts.primary.normal,
             fontSize: 35,
             color: colors.merah
-          }}>10 Hari</Text>
+          }}>{loading ? '0 Hari' : moment(waktu.tanggal_akhir).fromNow(true)}</Text>
         </View>
       </View>
+
+      {/* coundown hari */}
+
+
+
+
       <View style={{
         flex: 1,
       }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <MyListTarget kategori="Jayagiri" logo={require('../../assets/jayagiri.png')} target={data[0].target} pj={90} />
-          <MyListTarget kategori="Villa" logo={require('../../assets/logo.png')} target={data[1].target} pj={100} />
-          <MyListTarget kategori="RnV" logo={require('../../assets/rv.png')} target={data[2].target} pj={90} />
-          <MyListTarget kategori="Keun" logo={require('../../assets/farm.png')} target={data[3].target} pj={90} />
+          <MyListTarget kategori="Jayagiri" logo={require('../../assets/jayagiri.png')} target={parseFloat(data[0].target)} pj={parseFloat(data[0].pj)} />
+          <MyListTarget kategori="Villa" logo={require('../../assets/logo.png')} target={parseFloat(data[1].target)} pj={parseFloat(data[1].pj)} />
+          <MyListTarget kategori="RnV" logo={require('../../assets/rv.png')} target={parseFloat(data[2].target)} pj={parseFloat(data[1].pj)} />
+          <MyListTarget kategori="Keun" logo={require('../../assets/farm.png')} target={parseFloat(data[3].target)} pj={parseFloat(data[1].pj)} />
         </ScrollView>
       </View>
 

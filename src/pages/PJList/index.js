@@ -19,6 +19,31 @@ import { Icon } from 'react-native-elements';
 
 export default function PJList({ navigation }) {
 
+    const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
+
+    const isFocused = useIsFocused();
+
+
+    const _getPJlist = () => {
+        axios.post(apiURL + 'pj_list').then(res => {
+            console.log(res.data)
+
+            const TJB = res.data.filter(i => i.jenis.toLowerCase().indexOf('Tanggung Jawab'.toLowerCase()) > -1);
+            const AMH = res.data.filter(i => i.jenis.toLowerCase().indexOf('Amanah'.toLowerCase()) > -1);
+
+
+            setData(TJB);
+            setData2(AMH);
+        })
+    }
+
+
+    useEffect(() => {
+        if (isFocused) {
+            _getPJlist();
+        }
+    }, [isFocused])
 
     return (
         <SafeAreaView style={{
@@ -28,52 +53,198 @@ export default function PJList({ navigation }) {
 
             <MyHeader />
 
-            <View style={{
-                flex: 1,
-                padding: 20,
-            }}>
-                <TouchableOpacity onPress={() => navigation.navigate('Account')} style={{
-                    flexDirection: 'row',
+            <ScrollView>
+                <View style={{
+                    flex: 1,
                     padding: 20,
-                    marginVertical: 2
                 }}>
-                    <Text style={{
-                        flex: 1,
-                        fontFamily: fonts.primary[600],
-                        fontSize: windowWidth / 20,
-                        color: colors.black
-                    }}>Profil Saya</Text>
-                    <Icon type='ionicon' name='chevron-forward' color={colors.black} />
-                </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('PJList')} style={{
-                    flexDirection: 'row',
-                    padding: 20,
-                    marginVertical: 2
-                }}>
                     <Text style={{
-                        flex: 1,
-                        fontFamily: fonts.primary[600],
-                        fontSize: windowWidth / 20,
-                        color: colors.black
-                    }}>Daftar PJ</Text>
-                    <Icon type='ionicon' name='chevron-forward' color={colors.black} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Minimal')} style={{
-                    flexDirection: 'row',
-                    padding: 20,
-                    marginVertical: 2
-                }}>
+                        fontFamily: fonts.primary.normal,
+                        fontSize: 25,
+                        marginBottom: 10,
+                    }}>Tanggung Jawab</Text>
                     <Text style={{
-                        flex: 1,
-                        fontFamily: fonts.primary[600],
-                        fontSize: windowWidth / 20,
-                        color: colors.black
-                    }}>Minimal Stok</Text>
-                    <Icon type='ionicon' name='chevron-forward' color={colors.black} />
-                </TouchableOpacity>
+                        fontFamily: fonts.primary.normal,
+                        fontSize: 15,
+                    }}>Daftar Tanggung Jawab</Text>
 
-            </View>
+                    <View style={{
+                        marginTop: 10,
+                        marginBottom: 5,
+                        borderWidth: 1,
+                        padding: 5,
+                        borderRadius: 5,
+                        backgroundColor: colors.primary,
+                        flexDirection: 'row'
+
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.primary.normal,
+                            fontSize: 15,
+                            flex: 1,
+                            color: colors.white,
+                        }}>Tanggung Jawab</Text>
+                        <Text style={{
+                            flex: 0.3,
+                            fontFamily: fonts.primary.normal,
+                            fontSize: 15,
+                            color: colors.white,
+                        }}>Bobot</Text>
+                        <TouchableOpacity style={{
+                            width: 50,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flex: 1,
+                        }}>
+
+                        </TouchableOpacity>
+                    </View>
+
+                    {data.map((item, index) => {
+                        return (
+                            <View style={{
+                                padding: 10,
+                                borderWidth: 2,
+                                borderColor: colors.primary,
+                                marginBottom: 5,
+                                borderRadius: 10,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+
+                            }}>
+                                <Text style={{
+                                    fontFamily: fonts.primary.normal,
+                                    fontSize: 14,
+                                    color: colors.primary,
+                                }}>{index + 1}. </Text>
+                                <Text style={{
+                                    fontFamily: fonts.primary.normal,
+                                    fontSize: 14,
+                                    flex: 1,
+                                    color: colors.primary,
+                                }}>{item.judul}</Text>
+                                <Text style={{
+                                    flex: 0.3,
+                                    fontFamily: fonts.primary.normal,
+                                    fontSize: 14,
+                                    color: colors.primary,
+                                }}>{item.bobot}</Text>
+                                <TouchableOpacity onPress={() => Alert.alert(MYAPP, 'Apakah kamu yakin akan hapus ini ?', [
+                                    { text: 'TIDAK' },
+                                    {
+                                        text: 'HAPUS',
+                                        onPress: () => {
+                                            axios.post(apiURL + 'pj_delete', {
+                                                id: item.id
+                                            }).then(res => {
+                                                console.log(res.data);
+                                                _getPJlist();
+                                                if (res.data == 200) {
+                                                    showMessage({
+                                                        type: 'success',
+                                                        message: 'Berhasil dihapus !'
+                                                    })
+                                                }
+
+                                            })
+                                        }
+                                    }
+                                ])} style={{
+                                    paddingHorizontal: 10,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flex: 1,
+                                }}>
+                                    <Icon type='ionicon' name='close-circle' color={colors.merah} />
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    })}
+
+                </View>
+                <View style={{
+                    flex: 1,
+                    padding: 20,
+                }}>
+
+                    <Text style={{
+                        fontFamily: fonts.primary.normal,
+                        fontSize: 25,
+                        marginBottom: 10,
+                    }}>Amanah</Text>
+
+                    <Text style={{
+                        fontFamily: fonts.primary.normal,
+                        fontSize: 15,
+                        marginBottom: 10,
+                    }}>Daftar Amanah</Text>
+
+
+
+                    {data2.map((item, index) => {
+                        return (
+                            <View style={{
+                                padding: 10,
+                                borderWidth: 2,
+                                borderColor: colors.primary,
+                                marginBottom: 5,
+                                borderRadius: 10,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+
+                            }}>
+                                <Text style={{
+                                    fontFamily: fonts.primary.normal,
+                                    fontSize: 14,
+                                    color: colors.primary,
+                                }}>{index + 1}. </Text>
+                                <Text style={{
+                                    fontFamily: fonts.primary.normal,
+                                    fontSize: 14,
+                                    flex: 1,
+                                    color: colors.primary,
+                                }}>{item.judul}</Text>
+                                <Text style={{
+                                    flex: 0.3,
+                                    fontFamily: fonts.primary.normal,
+                                    fontSize: 14,
+                                    color: colors.primary,
+                                }}>{''}</Text>
+                                <TouchableOpacity onPress={() => Alert.alert(MYAPP, 'Apakah kamu yakin akan hapus ini ?', [
+                                    { text: 'TIDAK' },
+                                    {
+                                        text: 'HAPUS',
+                                        onPress: () => {
+                                            axios.post(apiURL + 'pj_delete', {
+                                                id: item.id
+                                            }).then(res => {
+                                                console.log(res.data);
+                                                _getPJlist();
+                                                if (res.data == 200) {
+                                                    showMessage({
+                                                        type: 'success',
+                                                        message: 'Berhasil dihapus !'
+                                                    })
+                                                }
+
+                                            })
+                                        }
+                                    }
+                                ])} style={{
+                                    paddingHorizontal: 10,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    flex: 1,
+                                }}>
+                                    <Icon type='ionicon' name='close-circle' color={colors.merah} />
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    })}
+
+                </View>
+            </ScrollView>
 
             <View style={{
                 padding: 20,

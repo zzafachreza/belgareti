@@ -18,7 +18,7 @@ export default function MyInput({
   onChangeText,
   value,
   borderWidth = 0,
-  textColor = colors.white,
+  textColor = colors.primary,
   keyboardType,
   secureTextEntry,
   styleInput,
@@ -27,7 +27,7 @@ export default function MyInput({
   multiline,
   label2,
   styleLabel,
-  colorIcon = colors.white,
+  colorIcon = colors.primary,
 }) {
 
   const [tutup, setTutup] = useState(true);

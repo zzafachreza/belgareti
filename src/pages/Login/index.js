@@ -199,13 +199,13 @@ export default function Login({ navigation }) {
 
 
         <View style={{ padding: 20, borderTopLeftRadius: 30, flex: 1, backgroundColor: colors.primary }}>
-          <MyInput label="Username" onChangeText={val => setKirim({
+          <MyInput textColor={colors.white} colorIcon={colors.white} label="Username" onChangeText={val => setKirim({
             ...kirim,
             username: val
           })}
             iconname="at" placeholder="Masukan username" />
           <MyGap jarak={20} />
-          <MyInput
+          <MyInput textColor={colors.white} colorIcon={colors.white}
             onChangeText={val => setKirim({
               ...kirim,
               password: val

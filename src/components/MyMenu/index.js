@@ -1,9 +1,10 @@
-import { Image, StyleSheet, Text, View, ScrollView, TouchableNativeFeedback } from 'react-native'
+import { Image, StyleSheet, Text, View, ScrollView, TouchableNativeFeedback, Alert } from 'react-native'
 import React from 'react'
 import { Icon } from 'react-native-elements'
 
 import { colors, fonts, windowHeight } from '../../utils'
 import { useNavigation } from '@react-navigation/native';
+import { MYAPP, storeData } from '../../utils/localStorage';
 
 export default function MyMenu() {
 
@@ -86,7 +87,9 @@ export default function MyMenu() {
 
                 </TouchableNativeFeedback>
 
-                <TouchableNativeFeedback onPress={() => alert('tes')} style={{
+                <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                    kategori: 'Jayagiri'
+                })} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -115,7 +118,9 @@ export default function MyMenu() {
                         }}>Jayagiri</Text></View>
                 </TouchableNativeFeedback>
 
-                <TouchableNativeFeedback style={{
+                <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                    kategori: 'Villa'
+                })} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -144,7 +149,9 @@ export default function MyMenu() {
                         }}>Villa</Text>
                     </View>
                 </TouchableNativeFeedback>
-                <TouchableNativeFeedback style={{
+                <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                    kategori: 'RnV'
+                })} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -181,7 +188,9 @@ export default function MyMenu() {
 
 
 
-                <TouchableNativeFeedback style={{
+                <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                    kategori: 'Kebun'
+                })} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -263,7 +272,26 @@ export default function MyMenu() {
                     </View>
                 </TouchableNativeFeedback>
 
-                <TouchableNativeFeedback style={{
+                <TouchableNativeFeedback onPress={() => {
+
+                    Alert.alert(MYAPP, 'Apakah kamu yakin akan keluar ?', [
+                        {
+                            text: 'Batal',
+                            style: "cancel"
+                        },
+                        {
+                            text: 'IYA',
+                            onPress: () => {
+                                storeData('user', null);
+
+                                navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'Splash' }],
+                                });
+                            }
+                        }
+                    ])
+                }} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
                     alignItems: 'center'

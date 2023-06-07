@@ -27,6 +27,14 @@ import PJSaya from './PJSaya';
 import PJList from './PJList';
 import PJListAdd from './PJListAdd';
 import PJListEdit from './PJListEdit';
+import Waktu from './Waktu';
+import PJSayaAdd from './PJSayaAdd';
+import PJSayaDetail from './PJSayaDetail';
+import PJSayaIkhlasAdd from './PJSayaIkhkasAdd';
+import PJSayaAddAmanah from './PJSayaAddAmanah';
+import PJSayaDetailAmanah from './PJSayaDetailAmanah';
+import PJSayaDetailIkhlas from './PJSayaDetailIkhlas';
+import PJKategori from './PJKategori';
 
 // produk
 
@@ -34,7 +42,6 @@ import PJListEdit from './PJListEdit';
 
 
 // NEW
-
 
 
 
@@ -75,7 +82,16 @@ export {
   PJSaya,
   PJList,
   PJListAdd,
-  PJListEdit
+  PJListEdit,
+  Waktu,
+  PJSayaAdd,
+  PJSayaDetail,
+  PJSayaIkhlasAdd,
+
+  PJSayaAddAmanah,
+  PJSayaDetailAmanah,
+  PJSayaDetailIkhlas,
+  PJKategori
 
 
 

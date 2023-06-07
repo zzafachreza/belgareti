@@ -31,6 +31,15 @@ import {
   PJList,
   PJListAdd,
   PJListEdit,
+  Waktu,
+  PJsayaDetail,
+  PJSayaAdd,
+  PJSayaDetail,
+  PJSayaIkhlasAdd,
+  PJSayaDetailIkhlas,
+  PJSayaAddAmanah,
+  PJSayaDetailAmanah,
+  PJKategori,
 } from '../pages';
 import { colors } from '../utils';
 import { Icon } from 'react-native-elements';
@@ -160,7 +169,7 @@ export default function Router() {
         component={Pengguna}
         options={{
           headerShown: true,
-          headerTitle: 'Kelola Pegawai',
+          headerTitle: 'Kelola Pengguna',
           headerStyle: {
             backgroundColor: colors.white,
           },
@@ -175,7 +184,7 @@ export default function Router() {
         component={PenggunaAdd}
         options={{
           headerShown: true,
-          headerTitle: 'Tambah Pegawai',
+          headerTitle: 'Tambah Pengguna',
           headerStyle: {
             backgroundColor: colors.white,
           },
@@ -188,7 +197,7 @@ export default function Router() {
         component={PenggunaDetail}
         options={{
           headerShown: true,
-          headerTitle: 'Detail Pegawai',
+          headerTitle: 'Detail Pengguna',
           headerStyle: {
             backgroundColor: colors.white,
           },
@@ -205,7 +214,7 @@ export default function Router() {
         component={PenggunaEdit}
         options={{
           headerShown: true,
-          headerTitle: 'Edit Pegawai',
+          headerTitle: 'Edit Pengguna',
           headerStyle: {
             backgroundColor: colors.white,
           },
@@ -371,6 +380,70 @@ export default function Router() {
         }}
       />
 
+
+
+      <Stack.Screen
+        name="Waktu"
+        component={Waktu}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PJSayaDetail"
+        component={PJSayaDetail}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PJSayaAdd"
+        component={PJSayaAdd}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PJSayaIkhlasAdd"
+        component={PJSayaIkhlasAdd}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PJSayaDetailIkhlas"
+        component={PJSayaDetailIkhlas}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PJSayaAddAmanah"
+        component={PJSayaAddAmanah}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PJSayaDetailAmanah"
+        component={PJSayaDetailAmanah}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="PJKategori"
+        component={PJKategori}
+        options={{
+          headerShown: false,
+        }}
+      />
 
 
 

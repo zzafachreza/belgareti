@@ -88,14 +88,20 @@ export default function Pengguna({ navigation }) {
                     justifyContent: 'center'
                 }}>
                     <Text style={{
-                        fontFamily: fonts.secondary[600],
+                        fontFamily: fonts.primary.normal,
                         fontSize: 14,
                         color: colors.black
                     }}>{item.nama_lengkap}</Text>
                     <Text style={{
-                        fontFamily: fonts.secondary[400],
+                        fontFamily: fonts.primary[800],
+                        fontSize: 15,
+                        color: colors.secondary
+                    }}>{item.level == 'Admin' ? 'Admin' : item.kategori} ( {item.jabatan} )</Text>
+
+                    <Text style={{
+                        fontFamily: fonts.primary[400],
                         fontSize: 12,
-                        color: colors.foourty
+                        color: colors.primary
                     }}>{item.level}</Text>
                 </View>
                 <View style={{
@@ -238,12 +244,12 @@ export default function Pengguna({ navigation }) {
                                     label: 'Semua'
                                 },
                                 {
-                                    value: 'Kasir',
-                                    label: 'Kasir'
+                                    value: 'User',
+                                    label: 'User'
                                 },
                                 {
-                                    value: 'Crew',
-                                    label: 'Crew'
+                                    value: 'Auditor',
+                                    label: 'Auditor'
                                 },
                                 {
                                     value: 'Admin',

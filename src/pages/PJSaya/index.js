@@ -15,6 +15,7 @@ import 'intl';
 import 'intl/locale-data/jsonp/en';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
+import 'moment/locale/id';
 import { color } from 'react-native-elements/dist/helpers';
 import MyCarouser from '../../components/MyCarouser';
 import MyMenu from '../../components/MyMenu';
@@ -216,11 +217,76 @@ export default function PJSaya({ navigation }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [user, setUser] = useState({});
     const [data, setData] = useState([]);
+    const [data2, setData2] = useState([]);
     const isFocused = useIsFocused();
+    const [loading, setLoading] = useState(true);
+    const [nilai, setNilai] = useState(0);
+    const [waktu, setWaktu] = useState({
+        tanggal_awal: moment().format('YYYY-MM-DD'),
+        tanggal_aakhir: moment().format('YYYY-MM-DD'),
+    });
+
+
+    const _getPJlist = () => {
+        getData('user').then(uu => {
+
+            axios.post(apiURL + 'get_pj_saya', {
+                fid_user: uu.id
+            }).then(nn => {
+                console.log(nn.data)
+                setNilai(parseFloat(nn.data.nilai))
+            })
+
+            axios.post(apiURL + 'pj_list', {
+                fid_user: uu.id
+            }).then(res => {
+
+                const TJB = res.data.filter(i => i.jenis.toLowerCase().indexOf('Tanggung Jawab'.toLowerCase()) > -1);
+                const AMH = res.data.filter(i => i.jenis.toLowerCase().indexOf('Amanah'.toLowerCase()) > -1);
+
+                setData(TJB);
+                setData2(AMH);
+            })
+
+        })
+
+    }
+
+    const __getIkhlas = () => {
+        getData('user').then(uu => {
+            axios.post(apiURL + 'pj_ikhlas', {
+                fid_user: uu.id
+            }).then(res => {
+                console.log(res.data);
+                setIkhlas(res.data);
+
+            })
+
+        })
+    }
+
+    const __getWaktu = () => {
+
+        axios.post(apiURL + 'waktu').then(res => {
+            console.log(res.data);
+            setWaktu(res.data);
+
+            setLoading(false);
+
+        })
+
+    }
+
+    const [ikhlas, setIkhlas] = useState([]);
+
+
     useEffect(() => {
 
         if (isFocused) {
             __getTransaction();
+            __getIkhlas();
+            __getWaktu();
+            _getPJlist();
         }
 
     }, [isFocused]);
@@ -229,12 +295,7 @@ export default function PJSaya({ navigation }) {
         getData('user').then(res => {
             setUser(res);
         });
-        axios.post(apiURL + 'target').then(res => {
-            console.log('target', res.data);
-            setData(res.data);
 
-
-        })
     }
 
 
@@ -296,7 +357,7 @@ export default function PJSaya({ navigation }) {
                             fontFamily: fonts.primary[600],
                             fontSize: 35,
                             color: colors.hijau
-                        }}>5%</Text></Text>
+                        }}>{nilai}%</Text></Text>
                     </View>
                     <View style={{
                         flex: 0.4,
@@ -317,7 +378,7 @@ export default function PJSaya({ navigation }) {
                             fontFamily: fonts.primary[800],
                             fontSize: 35,
                             color: colors.primary
-                        }}>20</Text></Text>
+                        }}>{loading ? '0' : moment(waktu.tanggal_akhir).fromNow(true).toString().split(" ")[0]}</Text></Text>
                     </View>
                 </View>
             </View>
@@ -338,10 +399,14 @@ export default function PJSaya({ navigation }) {
                     }}>Daftar Tanggung Jawab</Text>
 
 
+                    {data.map((item, index) => {
+                        return (
+                            <MyListTarget onPress={() => navigation.navigate('PJSayaDetail', item)} judul={item.judul} target={item.nilai} />
+                        )
 
-                    <MyListTarget judul="Membersihkan Kamar" target={85} />
-                    <MyListTarget judul="Mencuci Piring" target={50} />
-                    <MyListTarget judul="Mengantarkan Breakfast" target={5} />
+                    })}
+
+
 
                     <Text style={{
                         marginHorizontal: '7%',
@@ -350,9 +415,15 @@ export default function PJSaya({ navigation }) {
                         fontSize: 20,
                     }}>Penyelesaian Amanah</Text>
 
+                    {data2.map((item, index) => {
+                        return (
+                            <MyListTargetAmanah onPress={() => navigation.navigate('PJSayaDetailAmanah', item)} judul={item.judul} target={item.nilai} tanggal={moment(item.tanggal).format('DD/MM/YYYY')} />
+                        )
+
+                    })}
 
 
-                    <MyListTargetAmanah judul="Pemasangan TV" target={85} tanggal={moment().format('DD/MM/YYYY')} />
+
 
                     <Text style={{
                         marginHorizontal: '7%',
@@ -363,9 +434,13 @@ export default function PJSaya({ navigation }) {
 
 
 
-                    <MyListTargetIkhlas judul="Pemasangan Antena" tanggal={moment().format('DD/MM/YYYY')} />
+                    {ikhlas.map(item => {
+                        return (
+                            <MyListTargetIkhlas onPress={() => navigation.navigate('PJSayaDetailIkhlas', item)} judul={item.deskripsi_sebelum} tanggal={moment(item.tanggal).format('DD/MM/YYYY')} />
+                        )
+                    })}
 
-                    <TouchableOpacity onPress={() => navigation.navigate('TargetAdd')} style={{
+                    <TouchableOpacity onPress={() => navigation.navigate('PJSayaIkhlasAdd', user)} style={{
 
                         borderColor: colors.primary,
                         backgroundColor: colors.primary,

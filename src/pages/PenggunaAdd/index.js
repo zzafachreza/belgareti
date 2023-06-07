@@ -20,6 +20,8 @@ import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 import { showMessage } from 'react-native-flash-message';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import moment from 'moment';
+import MyCalendar from '../../components/MyCalendar';
 export default function PenggunaAdd({ navigation, route }) {
 
     const options = {
@@ -71,7 +73,11 @@ export default function PenggunaAdd({ navigation, route }) {
         telepon: '',
         email: '',
         foto_user: 'https://zavalabs.com/nogambar.jpg',
-        level: 'Kasir'
+        level: 'User',
+        jabatan: '',
+        kategori: 'Jayagiri',
+        jenis_kelamin: 'Laki-laki',
+        tanggal_lahir: moment().format('YYYY-MM-DD')
     });
     const [loading, setLoading] = useState(false);
     const sendServer = () => {
@@ -141,14 +147,14 @@ export default function PenggunaAdd({ navigation, route }) {
                         flex: 1,
                         paddingLeft: 5,
                     }}>
-                        <MyPicker label="Level" value={kirim.level} onValueChange={x => setKirim({ ...kirim, level: x })} iconname="medal" data={[
+                        <MyPicker label="Level" value={kirim.level} onValueChange={x => setKirim({ ...kirim, level: x })} iconname="medal-outline" data={[
                             {
-                                value: 'Kasir',
-                                label: 'Kasir'
+                                value: 'User',
+                                label: 'User'
                             },
                             {
-                                value: 'Crew',
-                                label: 'Crew'
+                                value: 'Auditor',
+                                label: 'Auditor'
                             },
                             {
                                 value: 'Admin',
@@ -156,21 +162,57 @@ export default function PenggunaAdd({ navigation, route }) {
                             },
 
                         ]} />
+                        <MyGap jarak={10} />
+                        <MyPicker value={kirim.kategori} onValueChange={x => setKirim({
+                            ...kirim,
+                            kategori: x
+                        })} iconname='grid-outline' label="Kategori" data={[
+                            { label: 'Jayagiri', value: 'Jayagiri' },
+                            { label: 'Villa', value: 'Villa' },
+                            { label: 'RnV', value: 'RnV' },
+                            { label: 'Kebun', value: 'Kebun' },
+                        ]} />
                     </View>
                 </View>
                 <MyGap jarak={10} />
-                <MyInput label="Username" iconname="at" placeholder="Masukan nama username" value={kirim.username} onChangeText={x => setKirim({ ...kirim, username: x })} />
+                <MyInput label="Nama Pengguna" iconname="person-outline" placeholder="Masukan nama pengguna" value={kirim.nama_lengkap} onChangeText={x => setKirim({ ...kirim, nama_lengkap: x })} />
 
                 <MyGap jarak={10} />
-                <MyInput label="Nama Pegawai" iconname="person" placeholder="Masukan nama pegawai" value={kirim.nama_lengkap} onChangeText={x => setKirim({ ...kirim, nama_lengkap: x })} />
+
+                <MyInput label="Username" iconname="at" placeholder="Masukan nama username" value={kirim.username} onChangeText={x => setKirim({ ...kirim, username: x })} />
+                <MyGap jarak={10} />
+                <MyInput label="Password" iconname="keypad" secureTextEntry={true} onChangeText={x => setKirim({ ...kirim, password: x })} placeholder="Masukan password" />
+                <MyGap jarak={10} />
+                <MyInput label="Jabatan" placeholder="Masukan jabatan" iconname="briefcase-outline" value={kirim.jabatan} onChangeText={x => setKirim({ ...kirim, jabatan: x })} />
+                <MyGap jarak={10} />
+                <MyInput label="Email" placeholder="Masukan email" iconname="mail-outline" value={kirim.email} onChangeText={x => setKirim({ ...kirim, email: x })} />
+
                 <MyGap jarak={10} />
                 <MyInput label="No. Handphone" keyboardType="phone-pad" placeholder="Masukan No. Handphone" iconname="logo-whatsapp" value={kirim.telepon} onChangeText={x => setKirim({ ...kirim, telepon: x })} />
                 <MyGap jarak={10} />
-                <MyInput label="Alamat email" iconname="mail" placeholder="Masukan alamat email" value={kirim.email} onChangeText={x => setKirim({ ...kirim, email: x })} />
+                <MyPicker label="Jenis Kelamin" value={kirim.jenis_kelamin} onValueChange={x => setKirim({ ...kirim, jenis_kelamin: x })} iconname="male-female-outline" data={[
+                    {
+                        value: 'Laki-laki',
+                        label: 'Laki-laki'
+                    },
+                    {
+                        value: 'Perempuan',
+                        label: 'Perempuan'
+                    },
 
+
+                ]} />
                 <MyGap jarak={10} />
-                <MyInput label="PIN" keyboardType='number-pad' iconname="keypad" secureTextEntry={true} onChangeText={x => setKirim({ ...kirim, password: x })} placeholder="Masukan password" />
+                <MyInput label="Tempat Lahir" placeholder="Masukan tempat lahir" iconname="home-outline" value={kirim.tempat_lahir} onChangeText={x => setKirim({ ...kirim, tempat_lahir: x })} />
+                <MyGap jarak={10} />
+                <MyCalendar value={kirim.tanggal_lahir} onDateChange={x => {
+                    setKirim({
+                        ...kirim,
+                        tanggal_lahir: x
+                    })
+                }} label="Tanggal Lahir" iconname="calendar-outline" placeholder="Pilih tanggal lahir" />
                 <MyGap jarak={20} />
+
                 {loading && <ActivityIndicator color={colors.primary} size="large" />}
 
                 {!loading && <MyButton warna={colors.primary} onPress={sendServer} title="Simpan" Icons="download-outline" />}

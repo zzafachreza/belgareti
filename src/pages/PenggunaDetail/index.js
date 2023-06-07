@@ -13,6 +13,7 @@ import axios from 'axios';
 import { FloatingAction } from "react-native-floating-action";
 import 'intl';
 import 'intl/locale-data/jsonp/en';
+import moment from 'moment';
 
 
 export default function PenggunaDetail({ navigation, route }) {
@@ -39,18 +40,19 @@ export default function PenggunaDetail({ navigation, route }) {
     const MYlistdata = ({ label, value }) => {
         return (
             <View style={{
-                marginVertical: 5,
+                marginVertical: 2,
                 borderBottomWidth: 1,
                 borderBottomColor: colors.zavalabs,
-                padding: 10,
+                paddingHorizontal: 10,
                 borderRadius: 5,
+                paddingVertical: 5,
             }}>
                 <Text style={{
-                    fontFamily: fonts.secondary[600],
+                    fontFamily: fonts.primary.normal,
                     fontSize: 14
                 }}>{label}</Text>
                 <Text style={{
-                    fontFamily: fonts.secondary[400],
+                    fontFamily: fonts.primary[400],
                     fontSize: 14
                 }}>{value}</Text>
             </View>
@@ -84,15 +86,21 @@ export default function PenggunaDetail({ navigation, route }) {
                         uri: user.foto_user
                     }} />
                     <Text style={{
-                        fontFamily: fonts.secondary[600],
+                        marginTop: 5,
+                        fontFamily: fonts.primary.normal,
                         fontSize: 15
-                    }}>{user.username}</Text>
+                    }}>@{user.username}</Text>
                 </View>
-
-                <MYlistdata label="Nama Pegawai" value={user.nama_lengkap} />
-                <MYlistdata label="No. Handphone" value={user.telepon} />
-                <MYlistdata label="Alamat Email" value={user.email} />
+                <MYlistdata label="Kategori" value={user.kategori} />
                 <MYlistdata label="Level" value={user.level} />
+                <MYlistdata label="Nama Pengguna" value={user.nama_lengkap} />
+                <MYlistdata label="Jabatan" value={user.jabatan} />
+                <MYlistdata label="Email" value={user.email} />
+                <MYlistdata label="No. Handphone" value={user.telepon} />
+                <MYlistdata label="Jenis Kelamin" value={user.jenis_kelamin} />
+                <MYlistdata label="Tempat dan tanggal lahir" value={`${user.tempat_lahir}, ${moment(user.tanggal_lahir).format('DD MMMM YYYY')} ( ${moment().diff(user.tanggal_lahir, 'years')} Tahun )`} />
+
+
 
             </View>}
 
