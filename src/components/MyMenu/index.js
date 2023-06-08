@@ -1,14 +1,22 @@
 import { Image, StyleSheet, Text, View, ScrollView, TouchableNativeFeedback, Alert } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Icon } from 'react-native-elements'
 
 import { colors, fonts, windowHeight } from '../../utils'
 import { useNavigation } from '@react-navigation/native';
-import { MYAPP, storeData } from '../../utils/localStorage';
+import { MYAPP, getData, storeData } from '../../utils/localStorage';
 
 export default function MyMenu() {
 
     const navigation = useNavigation();
+
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        getData('user').then(uu => {
+            setUser(uu)
+        })
+    }, [])
 
 
     return (
@@ -54,171 +62,188 @@ export default function MyMenu() {
 
                     </View>
                 </TouchableNativeFeedback>
-
-                <TouchableNativeFeedback onPress={() => alert('tes')} style={{
-                    paddingVertical: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <View style={{
-                        marginVertical: 5,
+                {user.level == 'Admin' &&
+                    <TouchableNativeFeedback onPress={() => navigation.replace('Belgareti')} style={{
+                        paddingVertical: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }}>
                         <View style={{
-                            width: 60,
-                            height: 60,
-                            borderRadius: 30,
-                            backgroundColor: colors.primary,
-                            justifyContent: 'center',
-                            alignItems: 'center'
+                            marginVertical: 5,
                         }}>
+                            <View style={{
+                                width: 60,
+                                height: 60,
+                                borderRadius: 30,
+                                backgroundColor: colors.primary,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Text style={{
+                                    fontFamily: fonts.primary[800],
+                                    color: colors.white,
+                                    fontSize: 10
+                                }}>BELGARETI</Text>
+                            </View>
                             <Text style={{
-                                fontFamily: fonts.primary[800],
-                                color: colors.white,
-                                fontSize: 10
-                            }}>BELGARETI</Text>
+                                marginTop: 5,
+                                fontFamily: fonts.primary[400],
+                                color: colors.primary,
+                                textAlign: 'center'
+                            }}>Belgareti</Text>
                         </View>
-                        <Text style={{
-                            marginTop: 5,
-                            fontFamily: fonts.primary[400],
-                            color: colors.primary,
-                            textAlign: 'center'
-                        }}>Belgareti</Text>
-                    </View>
 
-                </TouchableNativeFeedback>
+                    </TouchableNativeFeedback>
+                }
 
-                <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
-                    kategori: 'Jayagiri'
-                })} style={{
-                    paddingVertical: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <View style={{
-                        marginVertical: 5,
+                {(user.level == 'Admin' || user.kategori == 'Jayagiri') &&
+
+                    < TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                        kategori: 'Jayagiri'
+                    })} style={{
+                        paddingVertical: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }}>
                         <View style={{
-                            width: 60,
-                            height: 60,
-                            borderRadius: 30,
-                            backgroundColor: colors.primary,
-                            justifyContent: 'center',
-                            alignItems: 'center'
+                            marginVertical: 5,
                         }}>
-                            <Image source={require('../../assets/jayagiri.png')} style={{
-                                width: 40,
-                                height: 40
-                            }} />
-                        </View>
-                        <Text style={{
-                            marginTop: 5,
-                            fontFamily: fonts.primary[400],
-                            color: colors.primary,
-                            textAlign: 'center'
-                        }}>Jayagiri</Text></View>
-                </TouchableNativeFeedback>
+                            <View style={{
+                                width: 60,
+                                height: 60,
+                                borderRadius: 30,
+                                backgroundColor: colors.primary,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Image source={require('../../assets/jayagiri.png')} style={{
+                                    width: 40,
+                                    height: 40
+                                }} />
+                            </View>
+                            <Text style={{
+                                marginTop: 5,
+                                fontFamily: fonts.primary[400],
+                                color: colors.primary,
+                                textAlign: 'center'
+                            }}>Jayagiri</Text></View>
+                    </TouchableNativeFeedback>
 
-                <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
-                    kategori: 'Villa'
-                })} style={{
-                    paddingVertical: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <View style={{
-                        marginVertical: 5,
+                }
+
+
+                {(user.level == 'Admin' || user.kategori == 'Villa') &&
+                    <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                        kategori: 'Villa'
+                    })} style={{
+                        paddingVertical: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }}>
                         <View style={{
-                            width: 60,
-                            height: 60,
-                            borderRadius: 30,
-                            backgroundColor: colors.primary,
-                            justifyContent: 'center',
-                            alignItems: 'center'
+                            marginVertical: 5,
                         }}>
-                            <Image source={require('../../assets/logo.png')} style={{
-                                width: 40,
-                                height: 40
-                            }} />
+                            <View style={{
+                                width: 60,
+                                height: 60,
+                                borderRadius: 30,
+                                backgroundColor: colors.primary,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Image source={require('../../assets/logo.png')} style={{
+                                    width: 40,
+                                    height: 40
+                                }} />
+                            </View>
+                            <Text style={{
+                                marginTop: 5,
+                                fontFamily: fonts.primary[400],
+                                color: colors.primary,
+                                textAlign: 'center'
+                            }}>Villa</Text>
                         </View>
-                        <Text style={{
-                            marginTop: 5,
-                            fontFamily: fonts.primary[400],
-                            color: colors.primary,
-                            textAlign: 'center'
-                        }}>Villa</Text>
-                    </View>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
-                    kategori: 'RnV'
-                })} style={{
-                    paddingVertical: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <View style={{
-                        marginVertical: 5,
+                    </TouchableNativeFeedback>
+
+                }
+
+                {(user.level == 'Admin' || user.kategori == 'RnV') &&
+
+                    <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                        kategori: 'RnV'
+                    })} style={{
+                        paddingVertical: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }}>
                         <View style={{
-                            width: 60,
-                            height: 60,
-                            borderRadius: 30,
-                            backgroundColor: colors.primary,
-                            justifyContent: 'center',
-                            alignItems: 'center'
+                            marginVertical: 5,
                         }}>
-                            <Image source={require('../../assets/rv.png')} style={{
-                                width: 40,
-                                height: 40
-                            }} />
+                            <View style={{
+                                width: 60,
+                                height: 60,
+                                borderRadius: 30,
+                                backgroundColor: colors.primary,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Image source={require('../../assets/rv.png')} style={{
+                                    width: 40,
+                                    height: 40
+                                }} />
+                            </View>
+                            <Text style={{
+                                marginTop: 5,
+                                fontFamily: fonts.primary[400],
+                                color: colors.primary,
+                                textAlign: 'center'
+                            }}>RnV</Text>
                         </View>
-                        <Text style={{
-                            marginTop: 5,
-                            fontFamily: fonts.primary[400],
-                            color: colors.primary,
-                            textAlign: 'center'
-                        }}>RnV</Text>
-                    </View>
-                </TouchableNativeFeedback>
+                    </TouchableNativeFeedback>
+
+                }
 
 
 
 
 
 
+                {(user.level == 'Admin' || user.kategori == 'Kebun') &&
 
-
-                <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
-                    kategori: 'Kebun'
-                })} style={{
-                    paddingVertical: 5,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
-                    <View style={{
-                        marginVertical: 5,
+                    <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                        kategori: 'Kebun'
+                    })} style={{
+                        paddingVertical: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center'
                     }}>
                         <View style={{
-                            width: 60,
-                            height: 60,
-                            borderRadius: 30,
-                            backgroundColor: colors.primary,
-                            justifyContent: 'center',
-                            alignItems: 'center'
+                            marginVertical: 5,
                         }}>
-                            <Image source={require('../../assets/farm.png')} style={{
-                                width: 40,
-                                height: 40
-                            }} />
+                            <View style={{
+                                width: 60,
+                                height: 60,
+                                borderRadius: 30,
+                                backgroundColor: colors.primary,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Image source={require('../../assets/farm.png')} style={{
+                                    width: 40,
+                                    height: 40
+                                }} />
+                            </View>
+                            <Text style={{
+                                marginTop: 5,
+                                fontFamily: fonts.primary[400],
+                                color: colors.primary,
+                                textAlign: 'center'
+                            }}>Kebun</Text>
                         </View>
-                        <Text style={{
-                            marginTop: 5,
-                            fontFamily: fonts.primary[400],
-                            color: colors.primary,
-                            textAlign: 'center'
-                        }}>Kebun</Text>
-                    </View>
-                </TouchableNativeFeedback>
+                    </TouchableNativeFeedback>
+
+                }
+
                 <TouchableNativeFeedback onPress={() => navigation.replace('PJSaya')} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
@@ -245,7 +270,8 @@ export default function MyMenu() {
                         }}>PJ Saya</Text>
                     </View>
                 </TouchableNativeFeedback>
-                <TouchableNativeFeedback onPress={() => navigation.replace('AAAtur')} style={{
+
+                {user.level == 'Admin' && <TouchableNativeFeedback onPress={() => navigation.replace('AAAtur')} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -270,7 +296,7 @@ export default function MyMenu() {
                             textAlign: 'center'
                         }}>Admin</Text>
                     </View>
-                </TouchableNativeFeedback>
+                </TouchableNativeFeedback>}
 
                 <TouchableNativeFeedback onPress={() => {
 
@@ -321,7 +347,7 @@ export default function MyMenu() {
             </ScrollView>
 
 
-        </View>
+        </View >
     )
 }
 

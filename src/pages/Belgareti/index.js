@@ -69,7 +69,7 @@ const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = nul
                     {target_avg != null && jenis == 'Point' && <Text style={{
                         fontFamily: fonts.primary[600],
                         fontSize: 25,
-                        color: warnaTarget
+                        color: target == 0 && target_avg == 0 ? colors.merah : warnaTarget
                     }}>{target_avg}</Text>}
                     {target_avg != null && jenis == 'Rp' &&
 

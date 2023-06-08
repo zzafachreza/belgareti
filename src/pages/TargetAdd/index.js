@@ -22,6 +22,7 @@ import { showMessage } from 'react-native-flash-message';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import ZavalabsScanner from 'react-native-zavalabs-scanner'
 import MyFooter from '../../components/MyFooter';
+import CurrencyInput from 'react-native-currency-input';
 export default function TargetAdd({ navigation, route }) {
 
 
@@ -88,8 +89,6 @@ export default function TargetAdd({ navigation, route }) {
                         <MyGap jarak={10} />
                         <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Detail Target" iconname="list" placeholder="Masukan detail target" value={kirim.keterangan} onChangeText={x => setKirim({ ...kirim, keterangan: x })} />
 
-                        <MyGap jarak={10} />
-                        <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Nilai Target (Berupa angka)" iconname="create" keyboardType='number-pad' placeholder="Masukan detail target" value={kirim.target} onChangeText={x => setKirim({ ...kirim, target: x })} />
 
                         <MyGap jarak={10} />
                         <MyPicker value={kirim.jenis} onValueChange={x => setKirim({
@@ -101,6 +100,58 @@ export default function TargetAdd({ navigation, route }) {
                             { label: 'Point', value: 'Point' },
 
                         ]} />
+                        <MyGap jarak={10} />
+
+                        {kirim.jenis == 'Rp' &&
+                            <>
+                                <View
+                                    style={{
+
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                        paddingVertical: 5,
+                                    }}>
+                                    <Icon type="ionicon" name="create" color={colors.primary} size={16} />
+
+
+                                    <Text style={{
+                                        left: 10,
+
+                                        color: colors.primary,
+                                        fontFamily: fonts.secondary[600],
+                                        fontSize: 12
+                                    }}>{`Nilai Target (Berupa ${kirim.jenis} )`}</Text>
+
+                                </View>
+
+                                <CurrencyInput
+
+                                    style={{
+                                        backgroundColor: colors.zavalabs,
+                                        borderRadius: 10,
+                                        paddingLeft: 10,
+                                        color: colors.black,
+                                        fontSize: 12,
+                                        fontFamily: fonts.primary[400],
+                                    }}
+                                    placeholder="Masukan nilai target rupiah"
+                                    value={kirim.target}
+                                    // onChangeValue={setValue}
+
+                                    delimiter=","
+                                    separator="."
+                                    precision={0}
+                                    minValue={0}
+
+                                    onChangeValue={x => setKirim({
+                                        ...kirim,
+                                        target: x
+                                    })}
+                                />
+                            </>}
+
+                        {kirim.jenis != 'Rp' && <MyInput textColor={colors.primary} colorIcon={colors.primary} label={`Nilai Target (Berupa ${kirim.jenis} )`} iconname="create" keyboardType='number-pad' placeholder="Masukan nilai target" value={kirim.target} onChangeText={x => setKirim({ ...kirim, target: x })} />}
+
                         <MyGap jarak={20} />
                         {loading && <ActivityIndicator color={colors.primary} size="large" />}
 

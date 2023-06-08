@@ -19,7 +19,7 @@ import { color } from 'react-native-elements/dist/helpers';
 import MyCarouser from '../../components/MyCarouser';
 import MyMenu from '../../components/MyMenu';
 import DatePicker from 'react-native-datepicker'
-
+import CurrencyInput from 'react-native-currency-input';
 
 const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = null, judul, detail, point = null, uang = null, jenis = null, onDelete }) => {
 
@@ -72,7 +72,7 @@ const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = nul
                     {target_avg != null && jenis == 'Point' && <Text style={{
                         fontFamily: fonts.primary[600],
                         fontSize: 25,
-                        color: warnaTarget
+                        color: target_avg == 0 && target == 0 ? colors.merah : warnaTarget
                     }}>{target_avg}</Text>}
                     {target_avg != null && jenis == 'Rp' && <View>
                         <Text style={{
@@ -484,10 +484,64 @@ export default function TargetDetail({ navigation, route }) {
                                 }}
                                 onDateChange={(date) => { setKirim({ ...kirim, tanggal: date }) }}
                             />
-                            <MyInput keyboardType='number-pad' onChangeText={x => setKirim({
-                                ...kirim,
-                                capaian: x
-                            })} label={'Capaian ' + header.jenis} iconname="analytics" />
+
+                            {header.jenis != 'Rp' &&
+                                <MyInput textColor={colors.white} colorIcon={colors.white} keyboardType='number-pad' onChangeText={x => setKirim({
+                                    ...kirim,
+                                    capaian: x
+                                })} label={'Capaian ' + header.jenis} iconname="analytics" />
+                            }
+
+
+                            {header.jenis == 'Rp' &&
+
+                                <>
+                                    <View
+                                        style={{
+
+                                            flexDirection: 'row',
+                                            alignItems: 'center',
+                                            paddingVertical: 10,
+
+                                        }}>
+                                        <Icon type="ionicon" name="analytics" color={colors.white} size={16} />
+
+
+                                        <Text style={{
+                                            left: 10,
+                                            color: colors.white,
+                                            fontFamily: fonts.secondary[600],
+                                            fontSize: 12
+                                        }}>Capaian Rp</Text>
+
+                                    </View>
+
+                                    <CurrencyInput
+
+                                        style={{
+                                            backgroundColor: colors.zavalabs,
+                                            borderRadius: 10,
+                                            paddingLeft: 10,
+                                            color: colors.black,
+                                            fontSize: 12,
+                                            fontFamily: fonts.primary[400],
+                                        }}
+                                        value={kirim.capaian}
+                                        // onChangeValue={setValue}
+
+                                        delimiter=","
+                                        separator="."
+                                        precision={0}
+                                        minValue={0}
+
+                                        onChangeValue={x => setKirim({
+                                            ...kirim,
+                                            capaian: x
+                                        })}
+                                    />
+                                </>
+                            }
+
                             <MyGap jarak={20} />
                             <MyButton title="Save" onPress={sendServer} warna={colors.secondary} />
                         </View>

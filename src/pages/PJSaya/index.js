@@ -227,6 +227,8 @@ export default function PJSaya({ navigation }) {
     });
 
 
+    const [warnaPJ, setWarnaPJ] = useState(colors.white);
+
     const _getPJlist = () => {
         getData('user').then(uu => {
 
@@ -234,6 +236,18 @@ export default function PJSaya({ navigation }) {
                 fid_user: uu.id
             }).then(nn => {
                 console.log(nn.data)
+
+
+                let persent = parseFloat(nn.data.nilai)
+
+                if (persent >= 80 && persent <= 100) {
+                    setWarnaPJ(colors.hijau)
+                } else if (persent >= 50 && persent < 80) {
+                    setWarnaPJ(colors.kuning)
+                } else if (persent >= 0 && persent < 50) {
+                    setWarnaPJ(colors.merah)
+                }
+
                 setNilai(parseFloat(nn.data.nilai))
             })
 
@@ -356,7 +370,7 @@ export default function PJSaya({ navigation }) {
                         }}><Text style={{
                             fontFamily: fonts.primary[600],
                             fontSize: 35,
-                            color: colors.hijau
+                            color: warnaPJ
                         }}>{nilai}%</Text></Text>
                     </View>
                     <View style={{

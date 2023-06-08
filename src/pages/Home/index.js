@@ -343,48 +343,52 @@ export default function Home({ navigation }) {
         marginBottom: 10,
 
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-around'
       }}>
 
-        <View>
-          <TouchableOpacity onPress={() => navigation.navigate('Belgareti')} style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: 60,
-            borderRadius: 30,
-            height: 60,
-            backgroundColor: colors.primary,
-          }}>
+        {user.level == 'Admin' &&
+          <View>
+            <TouchableOpacity onPress={() => navigation.navigate('Belgareti')} style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 60,
+              borderRadius: 30,
+              height: 60,
+              backgroundColor: colors.primary,
+            }}>
+              <Text style={{
+                textAlign: 'center',
+                fontFamily: fonts.primary[600],
+                color: colors.white,
+                fontSize: 10,
+              }}>BELGARETI</Text>
+            </TouchableOpacity>
             <Text style={{
               textAlign: 'center',
               fontFamily: fonts.primary[600],
-              color: colors.white,
-              fontSize: 10,
-            }}>BELGARETI</Text>
-          </TouchableOpacity>
-          <Text style={{
-            textAlign: 'center',
-            fontFamily: fonts.primary[600],
-            color: colors.primary
-          }}>Belgareti</Text>
-        </View>
-        <View>
-          <TouchableOpacity onPress={() => navigation.navigate('AAAtur')} style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: 60,
-            borderRadius: 30,
-            height: 60,
-            backgroundColor: colors.primary,
-          }}>
-            <Icon type='ionicon' name='person' size={25} color={colors.white} />
-          </TouchableOpacity>
-          <Text style={{
-            textAlign: 'center',
-            fontFamily: fonts.primary[600],
-            color: colors.primary
-          }}>Admin</Text>
-        </View>
+              color: colors.primary
+            }}>Belgareti</Text>
+          </View>
+        }
+        {user.level == 'Admin' &&
+          <View>
+            <TouchableOpacity onPress={() => navigation.navigate('AAAtur')} style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 60,
+              borderRadius: 30,
+              height: 60,
+              backgroundColor: colors.primary,
+            }}>
+              <Icon type='ionicon' name='person' size={25} color={colors.white} />
+            </TouchableOpacity>
+            <Text style={{
+              textAlign: 'center',
+              fontFamily: fonts.primary[600],
+              color: colors.primary
+            }}>Admin</Text>
+          </View>
+        }
         <View>
           <TouchableOpacity onPress={() => navigation.navigate('PJSaya')} style={{
             justifyContent: 'center',
