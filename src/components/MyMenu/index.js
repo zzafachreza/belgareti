@@ -37,7 +37,7 @@ export default function MyMenu() {
             <ScrollView showsVerticalScrollIndicator={false} style={{
                 marginBottom: 20,
             }}>
-                <TouchableNativeFeedback onPress={() => navigation.replace('Home')} style={{
+                <TouchableNativeFeedback onPress={() => navigation.navigate('Home')} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -63,7 +63,7 @@ export default function MyMenu() {
                     </View>
                 </TouchableNativeFeedback>
                 {user.level == 'Admin' &&
-                    <TouchableNativeFeedback onPress={() => navigation.replace('Belgareti')} style={{
+                    <TouchableNativeFeedback onPress={() => navigation.navigate('Belgareti')} style={{
                         paddingVertical: 5,
                         justifyContent: 'center',
                         alignItems: 'center'
@@ -98,7 +98,7 @@ export default function MyMenu() {
 
                 {(user.level == 'Admin' || user.kategori == 'Jayagiri') &&
 
-                    < TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                    < TouchableNativeFeedback onPress={() => navigation.navigate('PJKategori1', {
                         kategori: 'Jayagiri'
                     })} style={{
                         paddingVertical: 5,
@@ -133,7 +133,7 @@ export default function MyMenu() {
 
 
                 {(user.level == 'Admin' || user.kategori == 'Villa') &&
-                    <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                    <TouchableNativeFeedback onPress={() => navigation.navigate('PJKategori2', {
                         kategori: 'Villa'
                     })} style={{
                         paddingVertical: 5,
@@ -169,7 +169,7 @@ export default function MyMenu() {
 
                 {(user.level == 'Admin' || user.kategori == 'RnV') &&
 
-                    <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                    <TouchableNativeFeedback onPress={() => navigation.navigate('PJKategori3', {
                         kategori: 'RnV'
                     })} style={{
                         paddingVertical: 5,
@@ -210,7 +210,7 @@ export default function MyMenu() {
 
                 {(user.level == 'Admin' || user.kategori == 'Kebun') &&
 
-                    <TouchableNativeFeedback onPress={() => navigation.replace('PJKategori', {
+                    <TouchableNativeFeedback onPress={() => navigation.navigate('PJKategori4', {
                         kategori: 'Kebun'
                     })} style={{
                         paddingVertical: 5,
@@ -244,7 +244,7 @@ export default function MyMenu() {
 
                 }
 
-                <TouchableNativeFeedback onPress={() => navigation.replace('PJSaya')} style={{
+                <TouchableNativeFeedback onPress={() => navigation.navigate('PJSaya')} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -271,7 +271,7 @@ export default function MyMenu() {
                     </View>
                 </TouchableNativeFeedback>
 
-                {user.level == 'Admin' && <TouchableNativeFeedback onPress={() => navigation.replace('AAAtur')} style={{
+                {user.level == 'Admin' && <TouchableNativeFeedback onPress={() => navigation.navigate('AAAtur')} style={{
                     paddingVertical: 5,
                     justifyContent: 'center',
                     alignItems: 'center'

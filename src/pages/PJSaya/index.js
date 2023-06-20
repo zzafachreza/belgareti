@@ -57,7 +57,7 @@ const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = nul
                         fontFamily: fonts.primary[600],
                         fontSize: 25,
                         color: warnaTarget
-                    }}>{target}%</Text>}
+                    }}>{target.toString().replace(".", ",")}%</Text>}
 
                 </View>
                 <View style={{
@@ -121,7 +121,7 @@ const MyListTargetAmanah = ({ onPress, kategori, tanggal, target = null, target_
                         fontFamily: fonts.primary[600],
                         fontSize: 25,
                         color: warnaTarget
-                    }}>{target}%</Text>}
+                    }}>{target.toString().replace(".", ",")}%</Text>}
 
                 </View>
                 <View style={{
@@ -371,7 +371,7 @@ export default function PJSaya({ navigation }) {
                             fontFamily: fonts.primary[600],
                             fontSize: 35,
                             color: warnaPJ
-                        }}>{nilai}%</Text></Text>
+                        }}>{nilai.toString().replace(".", ",")}%</Text></Text>
                     </View>
                     <View style={{
                         flex: 0.4,

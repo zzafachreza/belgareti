@@ -65,12 +65,12 @@ const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = nul
                         fontFamily: fonts.primary[600],
                         fontSize: 25,
                         color: warnaTarget
-                    }}>{target_avg}%</Text>}
+                    }}>{target_avg.toString().replace(".", ",")}%</Text>}
                     {target_avg != null && jenis == 'Jumlah' && <Text style={{
                         fontFamily: fonts.primary[600],
                         fontSize: 25,
                         color: target == 0 && target_avg == 0 ? colors.merah : warnaTarget
-                    }}>{target_avg}</Text>}
+                    }}>{target_avg.toString().replace(".", ",")}</Text>}
                     {target_avg != null && jenis == 'Rp' &&
 
                         <View>
@@ -78,7 +78,7 @@ const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = nul
                                 fontFamily: fonts.primary[600],
                                 fontSize: 25,
                                 color: warnaTarget
-                            }}>{(target_avg / 1000000).toFixed(2)} JT</Text>
+                            }}>{(target_avg / 1000000).toFixed(2).toString().replace(".", ",")} JT</Text>
                             <Text style={{
                                 fontFamily: fonts.primary[400],
                                 fontSize: 10,

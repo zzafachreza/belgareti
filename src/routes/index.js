@@ -40,6 +40,10 @@ import {
   PJSayaAddAmanah,
   PJSayaDetailAmanah,
   PJKategori,
+  PJKategori1,
+  PJKategori2,
+  PJKategori3,
+  PJKategori4,
 } from '../pages';
 import { colors } from '../utils';
 import { Icon } from 'react-native-elements';
@@ -440,6 +444,37 @@ export default function Router() {
       <Stack.Screen
         name="PJKategori"
         component={PJKategori}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+
+      <Stack.Screen
+        name="PJKategori1"
+        component={PJKategori1}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PJKategori2"
+        component={PJKategori2}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="PJKategori3"
+        component={PJKategori3}
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="PJKategori4"
+        component={PJKategori4}
         options={{
           headerShown: false,
         }}

@@ -147,7 +147,7 @@ export default function PJSayaDetailAmanah({ navigation, route }) {
                                     fontFamily: fonts.primary.normal,
                                     color: colors.placeholder,
                                     fontSize: 25
-                                }}>{item.persentase}%</Text>
+                                }}>{item.persentase.toString().replace(".", ",")}%</Text>
                             </View>
 
                             <View style={{

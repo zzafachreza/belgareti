@@ -95,7 +95,7 @@ const MyListTarget = ({ onPress, foto_user = 'https://zavalabs.com/nogambar.jpg'
 
 
 
-export default function PJKategori({ navigation, route }) {
+export default function PJKategori2({ navigation, route }) {
 
     const KATEGORI = route.params.kategori;
 

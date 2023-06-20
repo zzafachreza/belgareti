@@ -14,7 +14,7 @@ import 'intl/locale-data/jsonp/en';
 import moment from 'moment';
 import { Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
-
+import RNFS from 'react-native-fs';
 
 
 export default function AAAtur({ navigation }) {
@@ -113,6 +113,79 @@ export default function AAAtur({ navigation }) {
                     }}>Pengguna</Text>
                     <Icon type='ionicon' name='chevron-forward' color={colors.black} />
                 </TouchableOpacity>
+                {/* <TouchableOpacity onPress={() => {
+                    Alert.alert(MYAPP, 'Apakah kamu yakin download data ini ?', [
+                        { text: 'TIDAK' },
+                        {
+                            text: 'DOWNLOAD',
+                            onPress: () => {
+                                var path = RNFS.ExternalStorageDirectoryPath + `/Download/belgareti_${moment().format('YYMMDD')}.txt`;
+
+                                RNFS.writeFile(path, 'test 123123', 'utf8')
+                                    .then((success) => {
+                                        console.log('FILE WRITTEN!', path);
+                                        Alert.alert('Berhasil di simpan di folder download !', `zavalabs_${moment().format('YYMMDD')}.txt`)
+
+                                        // Share.open({
+                                        //     title: MYAPP,
+                                        //     message: "Print data",
+                                        //     url: 'file:///' + path,
+                                        //     subject: "Report",
+                                        // })
+                                        //     .then((res) => {
+                                        //         console.log(res);
+
+                                        //     })
+                                        //     .catch((err) => {
+                                        //         err && console.log(err);
+                                        //     });
+                                    })
+                                    .catch((err) => {
+                                        console.log(err.message);
+                                    });
+                            }
+                        }
+                    ])
+                }} style={{
+                    flexDirection: 'row',
+                    padding: 20,
+                    marginVertical: 2
+                }}>
+                    <Icon type='ionicon' name='download-outline' size={20} />
+                    <Text style={{
+                        left: 5,
+                        flex: 1,
+                        fontFamily: fonts.primary[600],
+                        fontSize: windowWidth / 20,
+                        color: colors.black
+                    }}>Download Data</Text>
+                    <Icon type='ionicon' name='chevron-forward' color={colors.black} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => {
+                    Alert.alert(MYAPP, 'Apakah kamu yakin akan reset data ini ?', [
+                        { text: 'TIDAK' },
+                        {
+                            text: 'YA, SAYA YAKIN AKAN RESET DATA',
+                            onPress: () => {
+                                alert('tser')
+                            }
+                        }
+                    ])
+                }} style={{
+                    flexDirection: 'row',
+                    padding: 20,
+                    marginVertical: 2
+                }}>
+                    <Icon type='ionicon' name='refresh-outline' size={20} />
+                    <Text style={{
+                        left: 5,
+                        flex: 1,
+                        fontFamily: fonts.primary[600],
+                        fontSize: windowWidth / 20,
+                        color: colors.black
+                    }}>Reset Data</Text>
+                    <Icon type='ionicon' name='chevron-forward' color={colors.black} />
+                </TouchableOpacity> */}
 
 
             </View>

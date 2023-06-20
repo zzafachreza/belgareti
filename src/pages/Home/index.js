@@ -81,7 +81,7 @@ const MyListTarget = ({ kategori, logo, target, pj, onPress }) => {
             fontFamily: fonts.primary.normal,
             fontSize: 20,
             color: warnaTarget
-          }}>{target}%</Text>
+          }}>{target.toString().replace(".", ",")}%</Text>
         </View>
         <View style={{
           flex: 1,
@@ -98,7 +98,7 @@ const MyListTarget = ({ kategori, logo, target, pj, onPress }) => {
             fontFamily: fonts.primary.normal,
             fontSize: 22,
             color: warnaPJ
-          }}>{pj}%</Text>
+          }}>{pj.toString().replace(".", ",")}%</Text>
         </View>
       </View>
     </TouchableOpacity>

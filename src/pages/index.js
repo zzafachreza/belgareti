@@ -35,6 +35,10 @@ import PJSayaAddAmanah from './PJSayaAddAmanah';
 import PJSayaDetailAmanah from './PJSayaDetailAmanah';
 import PJSayaDetailIkhlas from './PJSayaDetailIkhlas';
 import PJKategori from './PJKategori';
+import PJKategori1 from './PJKategori1';
+import PJKategori2 from './PJKategori2';
+import PJKategori3 from './PJKategori3';
+import PJKategori4 from './PJKategori4';
 
 // produk
 
@@ -91,7 +95,11 @@ export {
   PJSayaAddAmanah,
   PJSayaDetailAmanah,
   PJSayaDetailIkhlas,
-  PJKategori
+  PJKategori,
+  PJKategori1,
+  PJKategori2,
+  PJKategori3,
+  PJKategori4
 
 
 
