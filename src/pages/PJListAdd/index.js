@@ -31,11 +31,14 @@ export default function PJListAdd({ navigation, route }) {
         jenis: 'Tanggung Jawab',
         judul: '',
         bobot: '',
+        fid_user: '',
     });
     const [loading, setLoading] = useState(false);
     const sendServer = () => {
-        setLoading(true);
+
         console.log(kirim);
+
+        setLoading(true);
         axios.post(apiURL + 'pjlist_add', kirim).then(res => {
 
             console.log(res.data)
@@ -55,6 +58,19 @@ export default function PJListAdd({ navigation, route }) {
         })
     }
 
+    const [pengguna, setPengguna] = useState([]);
+
+    useEffect(() => {
+        axios.post(apiURL + 'pengguna_list').then(res => {
+            console.log(res.data);
+            setPengguna(res.data);
+            setKirim({
+                ...kirim,
+                fid_user: res.data[0].value
+            })
+        })
+    }, []);
+
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -72,7 +88,11 @@ export default function PJListAdd({ navigation, route }) {
                         backgroundColor: colors.white,
 
                     }}>
-
+                        <MyPicker value={kirim.fid_user} onValueChange={x => setKirim({
+                            ...kirim,
+                            fid_user: x
+                        })} iconname='person' label="Pengguna / Level / Kategori" data={pengguna} />
+                        <MyGap jarak={10} />
                         <MyPicker value={kirim.jenis} onValueChange={x => setKirim({
                             ...kirim,
                             jenis: x

@@ -118,12 +118,20 @@ export default function PJList({ navigation }) {
                                     fontSize: 14,
                                     color: colors.primary,
                                 }}>{index + 1}. </Text>
-                                <Text style={{
-                                    fontFamily: fonts.primary.normal,
-                                    fontSize: 14,
+                                <View style={{
                                     flex: 1,
-                                    color: colors.primary,
-                                }}>{item.judul}</Text>
+                                }}>
+                                    <Text style={{
+                                        fontFamily: fonts.primary.normal,
+                                        fontSize: 14,
+                                        color: colors.primary,
+                                    }}>{item.judul}</Text>
+                                    <Text style={{
+                                        fontFamily: fonts.primary[400],
+                                        fontSize: 12,
+                                        color: colors.primary,
+                                    }}>{item.nama_lengkap} - {item.kategori}</Text>
+                                </View>
                                 <Text style={{
                                     flex: 0.3,
                                     fontFamily: fonts.primary.normal,
@@ -199,12 +207,20 @@ export default function PJList({ navigation }) {
                                     fontSize: 14,
                                     color: colors.primary,
                                 }}>{index + 1}. </Text>
-                                <Text style={{
-                                    fontFamily: fonts.primary.normal,
-                                    fontSize: 14,
+                                <View style={{
                                     flex: 1,
-                                    color: colors.primary,
-                                }}>{item.judul}</Text>
+                                }}>
+                                    <Text style={{
+                                        fontFamily: fonts.primary.normal,
+                                        fontSize: 14,
+                                        color: colors.primary,
+                                    }}>{item.judul}</Text>
+                                    <Text style={{
+                                        fontFamily: fonts.primary[400],
+                                        fontSize: 12,
+                                        color: colors.primary,
+                                    }}>{item.nama_lengkap} - {item.kategori}</Text>
+                                </View>
                                 <Text style={{
                                     flex: 0.3,
                                     fontFamily: fonts.primary.normal,

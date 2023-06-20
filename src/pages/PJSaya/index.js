@@ -235,7 +235,7 @@ export default function PJSaya({ navigation }) {
             axios.post(apiURL + 'get_pj_saya', {
                 fid_user: uu.id
             }).then(nn => {
-                console.log(nn.data)
+                console.log('nilai', nn.data)
 
 
                 let persent = parseFloat(nn.data.nilai)
@@ -271,7 +271,7 @@ export default function PJSaya({ navigation }) {
             axios.post(apiURL + 'pj_ikhlas', {
                 fid_user: uu.id
             }).then(res => {
-                console.log(res.data);
+
                 setIkhlas(res.data);
 
             })
@@ -282,7 +282,7 @@ export default function PJSaya({ navigation }) {
     const __getWaktu = () => {
 
         axios.post(apiURL + 'waktu').then(res => {
-            console.log(res.data);
+
             setWaktu(res.data);
 
             setLoading(false);

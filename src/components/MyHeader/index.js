@@ -45,9 +45,14 @@ export default function MyHeader({ onPress }) {
           }}>
             <Text style={{
               fontFamily: fonts.primary[600],
-              fontSize: 20,
+              fontSize: 18,
               color: colors.primary
             }}>{user.nama_lengkap}</Text>
+            <Text style={{
+              fontFamily: fonts.primary[400],
+              fontSize: 12,
+              color: colors.primary
+            }}>{user.jabatan}</Text>
 
           </View>
         </View>

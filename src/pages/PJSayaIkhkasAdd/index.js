@@ -32,6 +32,7 @@ export default function PJSayaIkhlasAdd({ navigation, route }) {
     const isFocused = useIsFocused();
     const [loading, setLoading] = useState(false);
 
+
     const requestCameraPermission = async () => {
         try {
             const granted = await PermissionsAndroid.request(
@@ -64,13 +65,19 @@ export default function PJSayaIkhlasAdd({ navigation, route }) {
 
     const sendServer = () => {
         console.log(kirim);
-        setLoading(true);
-        axios.post(apiURL + 'pj_ikhlas_add', kirim).then(res => {
-            setLoading(false);
-            navigation.goBack();
-            console.log(res.data);
-            Alert.alert(MYAPP, res.data.message);
-        })
+
+        if (kirim.foto_ikhlas1 == 'https://zavalabs.com/nogambar.jpg' || kirim.foto_ikhlas2 == 'https://zavalabs.com/nogambar.jpg') {
+            Alert.alert(MYAPP, 'Maaf foto sebelum dan sesudah wajib di isi !')
+        } else {
+            setLoading(true);
+            axios.post(apiURL + 'pj_ikhlas_add', kirim).then(res => {
+                setLoading(false);
+                navigation.goBack();
+                console.log(res.data);
+                Alert.alert(MYAPP, res.data.message);
+            })
+        }
+
     }
 
 
@@ -100,12 +107,20 @@ export default function PJSayaIkhlasAdd({ navigation, route }) {
                                 ...kirim,
                                 foto_ikhlas1: `data:${response.type};base64, ${response.base64}`,
                             });
+                            storeData('ikhlas', {
+                                foto_ikhlas1: `data:${response.type};base64, ${response.base64}`,
+                                foto_ikhlas2: kirim.foto_ikhlas2
+                            })
                             break;
                         case 2:
                             setKirim({
                                 ...kirim,
                                 foto_ikhlas2: `data:${response.type};base64, ${response.base64}`,
                             });
+                            storeData('ikhlas', {
+                                foto_ikhlas2: `data:${response.type};base64, ${response.base64}`,
+                                foto_ikhlas1: kirim.foto_ikhlas1
+                            })
                             break;
                     }
                 } else {
@@ -119,27 +134,52 @@ export default function PJSayaIkhlasAdd({ navigation, route }) {
     };
 
 
+    const [DBikhlas, setDBIkhlas] = useState({});
 
 
     useEffect(() => {
         requestCameraPermission();
         if (isFocused) {
 
-            __getTransaction();
+            getData('ikhlas').then(res => {
+                console.log(res);
+                if (!res) {
+                    setDBIkhlas({
+                        foto_ikhlas1: 'https://zavalabs.com/nogambar.jpg',
+                        foto_ikhlas2: 'https://zavalabs.com/nogambar.jpg',
+                    });
+                    getData('user').then(res2 => {
+                        setUser(res2);
+                        setKirim({
+                            ...kirim,
+                            foto_ikhlas1: res.foto_ikhlas1,
+                            foto_ikhlas2: res.foto_ikhlas2,
+                            fid_user: res2.id
+
+                        })
+
+                    });
+                } else {
+                    setDBIkhlas(res);
+                    getData('user').then(res2 => {
+                        setUser(res2);
+                        setKirim({
+                            ...kirim,
+                            foto_ikhlas1: res.foto_ikhlas1,
+                            foto_ikhlas2: res.foto_ikhlas2,
+                            fid_user: res2.id
+
+                        })
+
+                    });
+
+                }
+            })
+
+
         }
 
     }, [isFocused]);
-
-    const __getTransaction = () => {
-        getData('user').then(res => {
-            setUser(res);
-            setKirim({
-                ...kirim,
-                fid_user: res.id
-            })
-        });
-
-    }
 
 
 

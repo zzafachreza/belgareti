@@ -21,29 +21,30 @@ import MyMenu from '../../components/MyMenu';
 import DatePicker from 'react-native-datepicker'
 import CurrencyInput from 'react-native-currency-input';
 
-const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = null, judul, detail, point = null, uang = null, jenis = null, onDelete }) => {
+const MyListTarget = ({ onDelete, onPress, kategori, logo, target = null, target_avg = null, judul, detail, point = null, uang = null, jenis = null,
+
+    rumus,
+    hijau_min,
+    hijau_max,
+    kuning_min,
+    kuning_max,
+    merah_min,
+    merah_max
+
+}) => {
 
     let warnaTarget = colors.hijau;
 
-    let persent = (target_avg / target).toFixed(2) * 100;
+    let persent = target_avg;
 
-    if (persent >= 80 && persent <= 100) {
+    if (persent >= hijau_min && persent <= hijau_max) {
         warnaTarget = colors.hijau
-    } else if (persent >= 50 && persent < 80) {
+    } else if (persent >= kuning_min && persent <= kuning_max) {
         warnaTarget = colors.kuning
-    } else if (persent >= 0 && persent < 50) {
+    } else if (persent >= merah_min && persent <= merah_max) {
         warnaTarget = colors.merah
     }
 
-    let infotarget = '';
-
-    if (jenis == '%') {
-        infotarget = `Min ${new Intl.NumberFormat().format(target)}${jenis}`;
-    } else if (jenis == 'Point') {
-        infotarget = `Min ${new Intl.NumberFormat().format(target)} ${jenis}`;
-    } else if (jenis == 'Rp') {
-        infotarget = `${jenis} ${new Intl.NumberFormat().format(target)}`;
-    }
 
 
 
@@ -51,7 +52,7 @@ const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = nul
         <>
             {/* RnV */}
 
-            <TouchableOpacity onPress={onPress} style={{
+            <View onPress={onPress} style={{
                 flexDirection: 'row', marginHorizontal: '7%', marginVertical: '1%', borderRadius: 10, backgroundColor: colors.white,
                 borderWidth: 2,
             }}>
@@ -69,113 +70,27 @@ const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = nul
                         fontSize: 25,
                         color: warnaTarget
                     }}>{target_avg}%</Text>}
-                    {target_avg != null && jenis == 'Point' && <Text style={{
+                    {target_avg != null && jenis == 'Jumlah' && <Text style={{
                         fontFamily: fonts.primary[600],
                         fontSize: 25,
-                        color: target_avg == 0 && target == 0 ? colors.merah : warnaTarget
+                        color: target == 0 && target_avg == 0 ? colors.merah : warnaTarget
                     }}>{target_avg}</Text>}
-                    {target_avg != null && jenis == 'Rp' && <View>
-                        <Text style={{
-                            fontFamily: fonts.primary[600],
-                            fontSize: 25,
-                            color: warnaTarget
-                        }}>{(target_avg / 1000000).toFixed(2)} JT</Text>
-                        <Text style={{
-                            fontFamily: fonts.primary[400],
-                            fontSize: 10,
-                            color: warnaTarget
-                        }}>Rp. {new Intl.NumberFormat().format(target_avg)}</Text>
-                    </View>}
-                </View>
-                <View style={{
-                    flex: 1,
-                    padding: 7,
-                }}>
-                    <Text style={{
-                        fontFamily: fonts.primary[600],
-                        fontSize: 14,
-                        color: colors.primary
-                    }}>{judul}</Text>
-                    <Text style={{
-                        fontFamily: fonts.primary[400],
-                        fontSize: 14,
-                        color: colors.primary
-                    }}>{detail}</Text>
-                    <Text style={{
-                        fontFamily: fonts.primary[400],
-                        fontSize: 12,
-                        color: colors.primary
-                    }}>( {infotarget} ) { } </Text>
-                </View>
-                <TouchableOpacity onPress={onDelete} style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flex: 1,
-                    paddingHorizontal: 5,
-                }}>
-                    <Icon type='ionicon' name='trash' color={colors.danger} />
-                </TouchableOpacity>
-            </TouchableOpacity>
-        </>
-    )
-}
+                    {target_avg != null && jenis == 'Rp' &&
 
+                        <View>
+                            <Text style={{
+                                fontFamily: fonts.primary[600],
+                                fontSize: 25,
+                                color: warnaTarget
+                            }}>{(target_avg / 1000000).toFixed(2)} JT</Text>
+                            <Text style={{
+                                fontFamily: fonts.primary[400],
+                                fontSize: 10,
+                                color: warnaTarget
+                            }}>Rp. {new Intl.NumberFormat().format(target_avg)}</Text>
+                        </View>
 
-const MyListTargetDetail = ({ onPress, kategori, logo, target = null, target_avg = null, judul, detail, point = null, uang = null, jenis = null, onDelete }) => {
-
-    let warnaTarget = colors.hijau;
-    if (target_avg >= 80 && target_avg <= 100) {
-        warnaTarget = colors.hijau
-    } else if (target_avg >= 50 && target_avg < 80) {
-        warnaTarget = colors.kuning
-    } else if (target_avg >= 0 && target_avg < 50) {
-        warnaTarget = colors.merah
-    }
-
-    let infotarget = '';
-
-    if (jenis == '%') {
-        infotarget = `Min ${new Intl.NumberFormat().format(target)}${jenis}`;
-    } else if (jenis == 'Point') {
-        infotarget = `Min ${new Intl.NumberFormat().format(target)} ${jenis}`;
-    } else if (jenis == 'Rp') {
-        infotarget = `${jenis} ${new Intl.NumberFormat().format(target)}`;
-    }
-
-
-
-    return (
-        <>
-            {/* RnV */}
-
-            <TouchableOpacity onPress={onPress} style={{
-                flexDirection: 'row', marginHorizontal: '7%', marginVertical: '1%', borderRadius: 10, backgroundColor: colors.white,
-                borderWidth: 2,
-            }}>
-
-
-                <View style={{
-                    flex: 0.5,
-                    padding: 7,
-                    justifyContent: 'center',
-
-
-                }}>
-                    {target != null && jenis == '%' && <Text style={{
-                        fontFamily: fonts.primary[600],
-                        fontSize: 25,
-                        color: warnaTarget
-                    }}>{target}%</Text>}
-                    {target != null && jenis == 'Point' && <Text style={{
-                        fontFamily: fonts.primary[600],
-                        fontSize: 25,
-                        color: warnaTarget
-                    }}>{target}</Text>}
-                    {target != null && jenis == 'Rp' && <Text style={{
-                        fontFamily: fonts.primary[600],
-                        fontSize: 25,
-                        color: warnaTarget
-                    }}>{(target / 1000000).toFixed(2)} JT</Text>}
+                    }
                 </View>
                 <View style={{
                     flex: 1,
@@ -201,10 +116,12 @@ const MyListTargetDetail = ({ onPress, kategori, logo, target = null, target_avg
                 }}>
                     <Icon type='ionicon' name='trash' color={colors.danger} />
                 </TouchableOpacity>
-            </TouchableOpacity>
+            </View>
         </>
     )
 }
+
+
 
 
 export default function TargetDetail({ navigation, route }) {
@@ -215,6 +132,83 @@ export default function TargetDetail({ navigation, route }) {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const isFocused = useIsFocused();
+
+    const MyListTargetDetail = ({ onPress, kategori, logo, capaian = null, target_avg = null, judul, detail, point = null, uang = null, jenis = null, onDelete }) => {
+
+        let warnaTarget = colors.hijau;
+        if (capaian >= header.hijau_min && capaian <= header.hijau_max) {
+            warnaTarget = colors.hijau
+        } else if (capaian >= header.kuning_min && capaian <= header.kuning_max) {
+            warnaTarget = colors.kuning
+        } else if (capaian >= header.merah_min && capaian <= header.merah_max) {
+            warnaTarget = colors.merah
+        }
+
+
+
+        return (
+            <>
+
+
+                <TouchableOpacity onPress={onPress} style={{
+                    flexDirection: 'row', marginHorizontal: '7%', marginVertical: '1%', borderRadius: 10, backgroundColor: colors.white,
+                    borderWidth: 2,
+                }}>
+
+
+                    <View style={{
+                        flex: 0.5,
+                        padding: 7,
+                        justifyContent: 'center',
+
+
+                    }}>
+                        {capaian != null && jenis == '%' && <Text style={{
+                            fontFamily: fonts.primary[600],
+                            fontSize: 25,
+                            color: warnaTarget
+                        }}>{capaian}%</Text>}
+                        {capaian != null && jenis == 'Jumlah' && <Text style={{
+                            fontFamily: fonts.primary[600],
+                            fontSize: 25,
+                            color: warnaTarget
+                        }}>{capaian}</Text>}
+                        {capaian != null && jenis == 'Rp' && <Text style={{
+                            fontFamily: fonts.primary[600],
+                            fontSize: 25,
+                            color: warnaTarget
+                        }}>{(capaian / 1000000).toFixed(2)} JT</Text>}
+                    </View>
+                    <View style={{
+                        flex: 1,
+                        padding: 7,
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.primary[600],
+                            fontSize: 14,
+                            color: colors.primary
+                        }}>{judul}</Text>
+                        <Text style={{
+                            fontFamily: fonts.primary[400],
+                            fontSize: 14,
+                            color: colors.primary
+                        }}>{detail}</Text>
+
+                    </View>
+                    <TouchableOpacity onPress={onDelete} style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flex: 1,
+                        paddingHorizontal: 5,
+                    }}>
+                        <Icon type='ionicon' name='trash' color={colors.danger} />
+                    </TouchableOpacity>
+                </TouchableOpacity>
+            </>
+        )
+    }
+
+
     useEffect(() => {
 
         if (isFocused) {
@@ -259,6 +253,10 @@ export default function TargetDetail({ navigation, route }) {
                     message: res.data.message,
                     type: 'success'
                 });
+                setKirim({
+                    ...kirim,
+                    capaian: '',
+                })
                 __getTransaction();
                 setModalAdd(false)
             }
@@ -358,17 +356,28 @@ export default function TargetDetail({ navigation, route }) {
                             fontSize: 20,
                         }}>{header.kategori}</Text>
 
-                        <MyListTarget onDelete={() => {
-                            Alert.alert(MYAPP, `Apakah kamu yakin akan hapus target ${header.judul} detail target ${header.keterangan}   ?`, [
-                                { text: 'TIDAK' },
-                                {
-                                    text: 'HAPUS',
-                                    onPress: () => {
-                                        hapusTarget(header.id)
+                        <MyListTarget
+
+
+                            rumus={header.rumus}
+                            hijau_min={header.hijau_min}
+                            hijau_max={header.hijau_max}
+                            kuning_min={header.kuning_min}
+                            kuning_max={header.kuning_max}
+                            merah_min={header.merah_min}
+                            merah_max={header.merah_max}
+
+                            onDelete={() => {
+                                Alert.alert(MYAPP, `Apakah kamu yakin akan hapus target ${header.judul} detail target ${header.keterangan}   ?`, [
+                                    { text: 'TIDAK' },
+                                    {
+                                        text: 'HAPUS',
+                                        onPress: () => {
+                                            hapusTarget(header.id)
+                                        }
                                     }
-                                }
-                            ])
-                        }} judul={header.judul} detail={header.keterangan} target_avg={header.target_avg} target={header.target} jenis={header.jenis} />
+                                ])
+                            }} judul={header.judul} detail={header.keterangan} target_avg={header.target_avg} target={header.target} jenis={header.jenis} />
 
                         <Text style={{
                             marginHorizontal: '7%',
@@ -390,7 +399,7 @@ export default function TargetDetail({ navigation, route }) {
                                             }
                                         }
                                     ])
-                                }} judul={'Tanggal'} detail={moment(i.tanggal).format('DD/MM/YYYY')} target={i.capaian} jenis={header.jenis} />
+                                }} judul={'Tanggal'} detail={moment(i.tanggal).format('DD/MM/YYYY')} capaian={i.capaian} jenis={header.jenis} />
                             )
                         })}
 

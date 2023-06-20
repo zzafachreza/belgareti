@@ -32,12 +32,18 @@ export default function TargetAdd({ navigation, route }) {
         kategori: 'Jayagiri',
         judul: '',
         keterangan: '',
-        target: '',
         jenis: 'Rp',
+        hijau_min: 0,
+        hijau_max: 0,
+        kuning_min: 0,
+        kuning_max: 0,
+        merah_min: 0,
+        merah_max: 0,
+        rumus: 'AVG'
     });
     const [loading, setLoading] = useState(false);
     const sendServer = () => {
-        setLoading(true);
+        // setLoading(true);
         console.log(kirim);
         axios.post(apiURL + 'target_add', kirim).then(res => {
 
@@ -97,60 +103,384 @@ export default function TargetAdd({ navigation, route }) {
                         })} iconname='options' label="Range" data={[
                             { label: 'Rp', value: 'Rp' },
                             { label: '%', value: '%' },
-                            { label: 'Point', value: 'Point' },
+                            { label: 'Jumlah', value: 'Jumlah' },
 
                         ]} />
                         <MyGap jarak={10} />
 
-                        {kirim.jenis == 'Rp' &&
-                            <>
-                                <View
-                                    style={{
+                        <MyPicker value={kirim.rumus} onValueChange={x => setKirim({
+                            ...kirim,
+                            rumus: x
+                        })} iconname='refresh' label="Rumus" data={[
+                            { label: 'Rata-rata', value: 'AVG' },
+                            { label: 'Minimal', value: 'MIN' },
+                            { label: 'Maksimal', value: 'MAX' },
+                            { label: 'Total', value: 'SUM' },
 
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        paddingVertical: 5,
-                                    }}>
-                                    <Icon type="ionicon" name="create" color={colors.primary} size={16} />
+                        ]} />
+
+                        <MyGap jarak={10} />
 
 
-                                    <Text style={{
-                                        left: 10,
+                        <Text style={{
+                            color: colors.primary,
+                            fontFamily: fonts.secondary[600],
+                            marginVertical: 5,
+                            fontSize: 15
+                        }}>{`Warna Target (Berupa ${kirim.jenis} )`}</Text>
 
-                                        color: colors.primary,
-                                        fontFamily: fonts.secondary[600],
-                                        fontSize: 12
-                                    }}>{`Nilai Target (Berupa ${kirim.jenis} )`}</Text>
+                        {/* hijau */}
+                        <View style={{
+                            flexDirection: 'row'
+                        }}>
+                            <View style={{
+                                width: 80,
+                                backgroundColor: colors.hijau,
+                                padding: 20,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Text style={{
+                                    color: colors.white,
+                                    fontFamily: fonts.secondary[600],
+                                    fontSize: 11
+                                }}>Hijau</Text>
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+                                {kirim.jenis == 'Rp' &&
+                                    <>
+                                        <View
+                                            style={{
 
-                                </View>
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                paddingVertical: 5,
+                                            }}>
+                                            <Icon type="ionicon" name="trending-down" color={colors.primary} size={16} />
+                                            <Text style={{
+                                                left: 10,
+                                                color: colors.primary,
+                                                fontFamily: fonts.secondary[600],
+                                                fontSize: 12
+                                            }}>Minimal</Text>
+                                        </View>
 
-                                <CurrencyInput
+                                        <CurrencyInput
 
-                                    style={{
-                                        backgroundColor: colors.zavalabs,
-                                        borderRadius: 10,
-                                        paddingLeft: 10,
-                                        color: colors.black,
-                                        fontSize: 12,
-                                        fontFamily: fonts.primary[400],
-                                    }}
-                                    placeholder="Masukan nilai target rupiah"
-                                    value={kirim.target}
-                                    // onChangeValue={setValue}
+                                            style={{
+                                                backgroundColor: colors.zavalabs,
+                                                borderRadius: 10,
+                                                paddingLeft: 10,
+                                                color: colors.black,
+                                                fontSize: 12,
+                                                fontFamily: fonts.primary[400],
+                                            }}
+                                            value={kirim.hijau_min}
+                                            // onChangeValue={setValue}
+                                            delimiter=","
+                                            separator="."
+                                            precision={0}
+                                            minValue={0}
 
-                                    delimiter=","
-                                    separator="."
-                                    precision={0}
-                                    minValue={0}
+                                            onChangeValue={x => setKirim({
+                                                ...kirim,
+                                                hijau_min: x
+                                            })}
+                                        />
+                                    </>}
 
-                                    onChangeValue={x => setKirim({
-                                        ...kirim,
-                                        target: x
-                                    })}
-                                />
-                            </>}
+                                {kirim.jenis != 'Rp' && <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Minimal" iconname="trending-down" keyboardType='number-pad' value={kirim.hijau_min} onChangeText={x => setKirim({ ...kirim, hijau_min: x })} />}
 
-                        {kirim.jenis != 'Rp' && <MyInput textColor={colors.primary} colorIcon={colors.primary} label={`Nilai Target (Berupa ${kirim.jenis} )`} iconname="create" keyboardType='number-pad' placeholder="Masukan nilai target" value={kirim.target} onChangeText={x => setKirim({ ...kirim, target: x })} />}
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+                                {kirim.jenis == 'Rp' &&
+                                    <>
+                                        <View
+                                            style={{
+
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                paddingVertical: 5,
+                                            }}>
+                                            <Icon type="ionicon" name="trending-up" color={colors.primary} size={16} />
+                                            <Text style={{
+                                                left: 10,
+                                                color: colors.primary,
+                                                fontFamily: fonts.secondary[600],
+                                                fontSize: 12
+                                            }}>Maksimal</Text>
+                                        </View>
+
+                                        <CurrencyInput
+
+                                            style={{
+                                                backgroundColor: colors.zavalabs,
+                                                borderRadius: 10,
+                                                paddingLeft: 10,
+                                                color: colors.black,
+                                                fontSize: 12,
+                                                fontFamily: fonts.primary[400],
+                                            }}
+                                            value={kirim.hijau_max}
+                                            // onChangeValue={setValue}
+                                            delimiter=","
+                                            separator="."
+                                            precision={0}
+                                            minValue={0}
+
+                                            onChangeValue={x => setKirim({
+                                                ...kirim,
+                                                hijau_max: x
+                                            })}
+                                        />
+                                    </>}
+
+                                {kirim.jenis != 'Rp' && <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Maksimal" iconname="trending-up" keyboardType='number-pad' value={kirim.hijau_max} onChangeText={x => setKirim({ ...kirim, hijau_max: x })} />}
+
+                            </View>
+                        </View>
+
+                        {/* kuning */}
+                        <View style={{
+                            flexDirection: 'row'
+                        }}>
+                            <View style={{
+                                width: 80,
+                                backgroundColor: colors.kuning,
+                                padding: 20,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Text style={{
+                                    color: colors.white,
+                                    fontFamily: fonts.secondary[600],
+                                    fontSize: 11
+                                }}>Kuning</Text>
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+                                {kirim.jenis == 'Rp' &&
+                                    <>
+                                        <View
+                                            style={{
+
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                paddingVertical: 5,
+                                            }}>
+                                            <Icon type="ionicon" name="trending-down" color={colors.primary} size={16} />
+                                            <Text style={{
+                                                left: 10,
+                                                color: colors.primary,
+                                                fontFamily: fonts.secondary[600],
+                                                fontSize: 12
+                                            }}>Minimal</Text>
+                                        </View>
+
+                                        <CurrencyInput
+
+                                            style={{
+                                                backgroundColor: colors.zavalabs,
+                                                borderRadius: 10,
+                                                paddingLeft: 10,
+                                                color: colors.black,
+                                                fontSize: 12,
+                                                fontFamily: fonts.primary[400],
+                                            }}
+                                            value={kirim.kuning_min}
+                                            // onChangeValue={setValue}
+                                            delimiter=","
+                                            separator="."
+                                            precision={0}
+                                            minValue={0}
+
+                                            onChangeValue={x => setKirim({
+                                                ...kirim,
+                                                kuning_min: x
+                                            })}
+                                        />
+                                    </>}
+
+                                {kirim.jenis != 'Rp' && <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Minimal" iconname="trending-down" keyboardType='number-pad' value={kirim.kuning_min} onChangeText={x => setKirim({ ...kirim, kuning_min: x })} />}
+
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+                                {kirim.jenis == 'Rp' &&
+                                    <>
+                                        <View
+                                            style={{
+
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                paddingVertical: 5,
+                                            }}>
+                                            <Icon type="ionicon" name="trending-up" color={colors.primary} size={16} />
+                                            <Text style={{
+                                                left: 10,
+                                                color: colors.primary,
+                                                fontFamily: fonts.secondary[600],
+                                                fontSize: 12
+                                            }}>Maksimal</Text>
+                                        </View>
+
+                                        <CurrencyInput
+
+                                            style={{
+                                                backgroundColor: colors.zavalabs,
+                                                borderRadius: 10,
+                                                paddingLeft: 10,
+                                                color: colors.black,
+                                                fontSize: 12,
+                                                fontFamily: fonts.primary[400],
+                                            }}
+                                            value={kirim.kuning_max}
+                                            // onChangeValue={setValue}
+                                            delimiter=","
+                                            separator="."
+                                            precision={0}
+                                            minValue={0}
+
+                                            onChangeValue={x => setKirim({
+                                                ...kirim,
+                                                kuning_max: x
+                                            })}
+                                        />
+                                    </>}
+
+                                {kirim.jenis != 'Rp' && <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Maksimal" iconname="trending-up" keyboardType='number-pad' value={kirim.kuning_max} onChangeText={x => setKirim({ ...kirim, kuning_max: x })} />}
+
+                            </View>
+                        </View>
+                        {/* merah */}
+                        <View style={{
+                            flexDirection: 'row'
+                        }}>
+                            <View style={{
+                                width: 80,
+                                backgroundColor: colors.merah,
+                                padding: 20,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Text style={{
+                                    color: colors.white,
+                                    fontFamily: fonts.secondary[600],
+                                    fontSize: 11
+                                }}>Merah</Text>
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+                                {kirim.jenis == 'Rp' &&
+                                    <>
+                                        <View
+                                            style={{
+
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                paddingVertical: 5,
+                                            }}>
+                                            <Icon type="ionicon" name="trending-down" color={colors.primary} size={16} />
+                                            <Text style={{
+                                                left: 10,
+                                                color: colors.primary,
+                                                fontFamily: fonts.secondary[600],
+                                                fontSize: 12
+                                            }}>Minimal</Text>
+                                        </View>
+
+                                        <CurrencyInput
+
+                                            style={{
+                                                backgroundColor: colors.zavalabs,
+                                                borderRadius: 10,
+                                                paddingLeft: 10,
+                                                color: colors.black,
+                                                fontSize: 12,
+                                                fontFamily: fonts.primary[400],
+                                            }}
+                                            value={kirim.merah_min}
+                                            // onChangeValue={setValue}
+                                            delimiter=","
+                                            separator="."
+                                            precision={0}
+                                            minValue={0}
+
+                                            onChangeValue={x => setKirim({
+                                                ...kirim,
+                                                merah_min: x
+                                            })}
+                                        />
+                                    </>}
+
+                                {kirim.jenis != 'Rp' && <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Minimal" iconname="trending-down" keyboardType='number-pad' value={kirim.merah_min} onChangeText={x => setKirim({ ...kirim, merah_min: x })} />}
+
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+                                {kirim.jenis == 'Rp' &&
+                                    <>
+                                        <View
+                                            style={{
+
+                                                flexDirection: 'row',
+                                                alignItems: 'center',
+                                                paddingVertical: 5,
+                                            }}>
+                                            <Icon type="ionicon" name="trending-up" color={colors.primary} size={16} />
+                                            <Text style={{
+                                                left: 10,
+                                                color: colors.primary,
+                                                fontFamily: fonts.secondary[600],
+                                                fontSize: 12
+                                            }}>Maksimal</Text>
+                                        </View>
+
+                                        <CurrencyInput
+
+                                            style={{
+                                                backgroundColor: colors.zavalabs,
+                                                borderRadius: 10,
+                                                paddingLeft: 10,
+                                                color: colors.black,
+                                                fontSize: 12,
+                                                fontFamily: fonts.primary[400],
+                                            }}
+                                            value={kirim.merah_max}
+                                            // onChangeValue={setValue}
+                                            delimiter=","
+                                            separator="."
+                                            precision={0}
+                                            minValue={0}
+
+                                            onChangeValue={x => setKirim({
+                                                ...kirim,
+                                                merah_max: x
+                                            })}
+                                        />
+                                    </>}
+
+                                {kirim.jenis != 'Rp' && <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Maksimal" iconname="trending-up" keyboardType='number-pad' value={kirim.merah_max} onChangeText={x => setKirim({ ...kirim, merah_max: x })} />}
+
+                            </View>
+                        </View>
+
+
+
 
                         <MyGap jarak={20} />
                         {loading && <ActivityIndicator color={colors.primary} size="large" />}

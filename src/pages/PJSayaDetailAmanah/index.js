@@ -130,6 +130,15 @@ export default function PJSayaDetailAmanah({ navigation, route }) {
                             marginVertical: 3,
                             alignItems: 'center'
                         }}>
+                            <View>
+                                <Image style={{
+                                    width: 60,
+                                    height: 60,
+                                    borderRadius: 5,
+                                }} source={{
+                                    uri: item.foto_amanah
+                                }} />
+                            </View>
                             <View style={{
                                 paddingHorizontal: 10,
                             }}>

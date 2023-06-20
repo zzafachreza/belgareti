@@ -27,9 +27,9 @@ const MyListTarget = ({ onPress, foto_user = 'https://zavalabs.com/nogambar.jpg'
 
     if (persent >= 80 && persent <= 100) {
         warnaTarget = colors.hijau
-    } else if (persent >= 50 && persent < 80) {
+    } else if (persent >= 50 && persent <= 79) {
         warnaTarget = colors.kuning
-    } else if (persent >= 0 && persent < 50) {
+    } else if (persent >= 0 && persent <= 49) {
         warnaTarget = colors.merah
     }
 
@@ -108,10 +108,11 @@ export default function PJKategori({ navigation, route }) {
     const [nilai, setNilai] = useState(0);
     const [waktu, setWaktu] = useState({
         tanggal_awal: moment().format('YYYY-MM-DD'),
-        tanggal_aakhir: moment().format('YYYY-MM-DD'),
+        tanggal_akhir: moment().format('YYYY-MM-DD'),
     });
-
-
+    const [sisaHari, setSisaHari] = useState(moment(waktu.tanggal_akhir).fromNow(true));
+    const [warnaHari, setWarnaHari] = useState(colors.hijau);
+    const [warnaKategori, setWarnaKategori] = useState(colors.hijau);
     const _getPJlist = () => {
         getData('user').then(uu => {
 
@@ -136,14 +137,40 @@ export default function PJKategori({ navigation, route }) {
         axios.post(apiURL + 'get_pj_kategori', {
             kategori: KATEGORI
         }).then(ni => {
-            console.log(ni.data.nilai);
-            setNilai(parseFloat(ni.data.nilai))
+
+            console.log('PJ Kategori', ni.data)
+
+            let tmpnilai = ni.data.nilai == null ? parseFloat(0) : parseFloat(ni.data.nilai);
+            setNilai(tmpnilai);
+            if (tmpnilai >= 80 && tmpnilai <= 100) {
+                setWarnaKategori(colors.hijau)
+            } else if (tmpnilai >= 50 && tmpnilai <= 79) {
+                setWarnaKategori(colors.kuning)
+            } else if (tmpnilai >= 0 && tmpnilai <= 49) {
+                setWarnaKategori(colors.merah)
+            }
+
+
+
+
+
+
+
         })
 
         axios.post(apiURL + 'waktu').then(res => {
 
             setWaktu(res.data);
+            setSisaHari(moment(res.data.tanggal_akhir).fromNow(true));
+            let hari = parseInt(moment(res.data.tanggal_akhir).fromNow(true).split(" ")[0]);
 
+            if (hari >= res.data.hijau_min && hari <= res.data.hijau_max) {
+                setWarnaHari(colors.hijau);
+            } else if (hari >= res.data.kuning_min && hari <= res.data.kuning_max) {
+                setWarnaHari(colors.kuning);
+            } else if (hari >= res.data.merah_min && hari <= res.data.merah_max) {
+                setWarnaHari(colors.merah);
+            }
             setLoading(false);
 
         })
@@ -224,7 +251,7 @@ export default function PJKategori({ navigation, route }) {
                         }}><Text style={{
                             fontFamily: fonts.primary[600],
                             fontSize: 35,
-                            color: colors.hijau
+                            color: warnaKategori
                         }}>{nilai}%</Text></Text>
                     </View>
                     <View style={{
@@ -245,8 +272,8 @@ export default function PJKategori({ navigation, route }) {
                         }}><Text style={{
                             fontFamily: fonts.primary[800],
                             fontSize: 35,
-                            color: colors.primary
-                        }}>{loading ? '0' : moment(waktu.tanggal_akhir).fromNow(true).toString().split(" ")[0]}</Text></Text>
+                            color: warnaHari
+                        }}>{loading ? '0' : sisaHari.toString().split(" ")[0]}</Text></Text>
                     </View>
                 </View>
             </View>

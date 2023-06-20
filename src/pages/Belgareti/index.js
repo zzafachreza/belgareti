@@ -19,28 +19,28 @@ import { color } from 'react-native-elements/dist/helpers';
 import MyCarouser from '../../components/MyCarouser';
 import MyMenu from '../../components/MyMenu';
 
-const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = null, judul, detail, point = null, uang = null, jenis = null }) => {
+const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = null, judul, detail, point = null, uang = null, jenis = null,
+
+    rumus,
+    hijau_min,
+    hijau_max,
+    kuning_min,
+    kuning_max,
+    merah_min,
+    merah_max
+
+}) => {
 
     let warnaTarget = colors.hijau;
-    let persent = (target_avg / target).toFixed(2) * 100;
-
-    if (persent >= 80 && persent <= 100) {
+    let persent = target_avg;
+    if (persent >= hijau_min && persent <= hijau_max) {
         warnaTarget = colors.hijau
-    } else if (persent >= 50 && persent < 80) {
+    } else if (persent >= kuning_min && persent <= kuning_max) {
         warnaTarget = colors.kuning
-    } else if (persent >= 0 && persent < 50) {
+    } else if (persent >= merah_min && persent <= merah_max) {
         warnaTarget = colors.merah
     }
 
-    let infotarget = '';
-
-    if (jenis == '%') {
-        infotarget = `Min ${new Intl.NumberFormat().format(target)}${jenis}`;
-    } else if (jenis == 'Point') {
-        infotarget = `Min ${new Intl.NumberFormat().format(target)} ${jenis}`;
-    } else if (jenis == 'Rp') {
-        infotarget = `${jenis} ${new Intl.NumberFormat().format(target)}`;
-    }
 
 
 
@@ -66,7 +66,7 @@ const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = nul
                         fontSize: 25,
                         color: warnaTarget
                     }}>{target_avg}%</Text>}
-                    {target_avg != null && jenis == 'Point' && <Text style={{
+                    {target_avg != null && jenis == 'Jumlah' && <Text style={{
                         fontFamily: fonts.primary[600],
                         fontSize: 25,
                         color: target == 0 && target_avg == 0 ? colors.merah : warnaTarget
@@ -102,11 +102,7 @@ const MyListTarget = ({ onPress, kategori, logo, target = null, target_avg = nul
                         fontSize: 14,
                         color: colors.primary
                     }}>{detail}</Text>
-                    <Text style={{
-                        fontFamily: fonts.primary[400],
-                        fontSize: 12,
-                        color: colors.primary
-                    }}>( {infotarget} ) </Text>
+
                 </View>
             </TouchableOpacity>
         </>
@@ -238,7 +234,16 @@ export default function Belgareti({ navigation }) {
                         getKategoriData(data, 'Jayagiri').map(i => {
                             return (
 
-                                <MyListTarget onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
+                                <MyListTarget
+                                    rumus={i.rumus}
+                                    hijau_min={i.hijau_min}
+                                    hijau_max={i.hijau_max}
+                                    kuning_min={i.kuning_min}
+                                    kuning_max={i.kuning_max}
+                                    merah_min={i.merah_min}
+                                    merah_max={i.merah_max}
+
+                                    onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
                             )
                         })
                     }
@@ -253,7 +258,17 @@ export default function Belgareti({ navigation }) {
                         getKategoriData(data, 'Villa').map(i => {
                             return (
 
-                                <MyListTarget onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
+                                <MyListTarget onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan}
+
+                                    rumus={i.rumus}
+                                    hijau_min={i.hijau_min}
+                                    hijau_max={i.hijau_max}
+                                    kuning_min={i.kuning_min}
+                                    kuning_max={i.kuning_max}
+                                    merah_min={i.merah_min}
+                                    merah_max={i.merah_max}
+
+                                    target_avg={i.target_avg} jenis={i.jenis} />
                             )
                         })
                     }
@@ -268,7 +283,15 @@ export default function Belgareti({ navigation }) {
                         getKategoriData(data, 'RnV').map(i => {
                             return (
 
-                                <MyListTarget onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
+                                <MyListTarget
+                                    rumus={i.rumus}
+                                    hijau_min={i.hijau_min}
+                                    hijau_max={i.hijau_max}
+                                    kuning_min={i.kuning_min}
+                                    kuning_max={i.kuning_max}
+                                    merah_min={i.merah_min}
+                                    merah_max={i.merah_max}
+                                    onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
                             )
                         })
                     }
@@ -283,7 +306,17 @@ export default function Belgareti({ navigation }) {
                         getKategoriData(data, 'Kebun').map(i => {
                             return (
 
-                                <MyListTarget onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
+                                <MyListTarget
+
+                                    rumus={i.rumus}
+                                    hijau_min={i.hijau_min}
+                                    hijau_max={i.hijau_max}
+                                    kuning_min={i.kuning_min}
+                                    kuning_max={i.kuning_max}
+                                    merah_min={i.merah_min}
+                                    merah_max={i.merah_max}
+
+                                    onPress={() => navigation.navigate('TargetDetail', i)} judul={i.judul} detail={i.keterangan} target={i.target} target_avg={i.target_avg} jenis={i.jenis} />
                             )
                         })
                     }

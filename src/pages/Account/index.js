@@ -135,7 +135,7 @@ export default function ({ navigation, route }) {
                                 textAlign: 'center',
                                 fontFamily: fonts.primary[400],
                                 fontSize: windowWidth / 18,
-                                color: colors.foourty
+                                color: colors.primary
                             }}>Ubah</Text>
                         </TouchableOpacity>
                     </View>

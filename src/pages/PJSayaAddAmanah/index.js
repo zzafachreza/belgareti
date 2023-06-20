@@ -78,10 +78,47 @@ export default function PJSayaAddAmanah({ navigation, route }) {
         fid_pjdaftar: route.params.id,
         deskripsi: '',
         persentase: '',
-        tanggal_amanah: moment().format('YYYY-MM-DD')
+        tanggal_amanah: moment().format('YYYY-MM-DD'),
+        foto_amanah: 'https://zavalabs.com/nogambar.jpg',
     });
 
 
+
+    const getGallery = xyz => {
+        launchImageLibrary(options, response => {
+            // console.log('All Response = ', response);
+
+            // console.log('Ukuran = ', response.fileSize);
+            if (response.didCancel) {
+                // console.log('User cancelled image picker');
+            } else if (response.error) {
+                // console.log('Image Picker Error: ', response.error);
+            } else {
+                if (response.fileSize <= 2000000) {
+                    let source = { uri: response.uri };
+                    switch (xyz) {
+                        case 1:
+                            setKirim({
+                                ...kirim,
+                                foto_amanah: `data:${response.type};base64, ${response.base64}`,
+                            });
+                            break;
+                        case 2:
+                            setKirim({
+                                ...kirim,
+                                foto_profile: `data:${response.type};base64, ${response.base64}`,
+                            });
+                            break;
+                    }
+                } else {
+                    showMessage({
+                        message: 'Ukuran Foto Terlalu Besar Max 500 KB',
+                        type: 'danger',
+                    });
+                }
+            }
+        });
+    };
 
 
 
@@ -164,6 +201,30 @@ export default function PJSayaAddAmanah({ navigation, route }) {
                     <MyGap jarak={10} />
                     <MyCalendar label="Tanggal Pengerjaan" iconname="calendar-outline" value={kirim.tanggal_amanah} />
                     <MyGap jarak={10} />
+                    <MyGap jarak={10} />
+                    <TouchableOpacity onPress={() => getGallery(1)} style={{
+                        width: '100%',
+                        height: 250,
+                        padding: 10,
+                        overflow: 'hidden',
+                        borderWidth: 1,
+                        borderRadius: 10,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderColor: colors.border
+                    }}>
+                        {kirim.foto_amanah !== 'https://zavalabs.com/nogambar.jpg' && <Image source={{
+                            uri: kirim.foto_amanah
+                        }} style={{
+                            width: '100%',
+                            height: 230,
+                            borderRadius: 10,
+                        }} />}
+                        {kirim.foto_amanah == 'https://zavalabs.com/nogambar.jpg' && <Image source={require('../../assets/camera.png')} style={{
+                            width: 40,
+                            height: 40,
+                        }} />}
+                    </TouchableOpacity>
 
                     <MyGap jarak={20} />
                     {loading && <ActivityIndicator color={colors.primary} size="large" />}

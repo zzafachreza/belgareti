@@ -19,7 +19,7 @@ import 'moment/locale/id';
 import { color } from 'react-native-elements/dist/helpers';
 import MyCarouser from '../../components/MyCarouser';
 
-const MyListTarget = ({ kategori, logo, target, pj }) => {
+const MyListTarget = ({ kategori, logo, target, pj, onPress }) => {
 
   let warnaTarget = colors.hijau;
   if (target >= 80 && target <= 100) {
@@ -41,13 +41,13 @@ const MyListTarget = ({ kategori, logo, target, pj }) => {
   }
 
   return (
-    <>
+    <TouchableOpacity onPress={onPress}>
       {/* RnV */}
       <Text style={{
         marginHorizontal: '7%',
         marginTop: '1%',
         fontFamily: fonts.primary.normal,
-        fontSize: 20,
+        fontSize: 15,
       }}>{kategori}</Text>
       <View style={{ flexDirection: 'row', marginHorizontal: '7%', marginVertical: '1%', borderRadius: 5, backgroundColor: colors.border }}>
         <View style={{
@@ -58,8 +58,8 @@ const MyListTarget = ({ kategori, logo, target, pj }) => {
         }}>
 
           <Image source={logo} style={{
-            width: 50,
-            height: 50,
+            width: 40,
+            height: 40,
             borderRadius: 30,
           }} />
 
@@ -74,12 +74,12 @@ const MyListTarget = ({ kategori, logo, target, pj }) => {
         }}>
           <Text style={{
             fontFamily: fonts.primary[400],
-            fontSize: 14,
+            fontSize: 13,
             color: colors.primary
           }}>TARGET</Text>
           <Text style={{
             fontFamily: fonts.primary.normal,
-            fontSize: 30,
+            fontSize: 20,
             color: warnaTarget
           }}>{target}%</Text>
         </View>
@@ -91,17 +91,17 @@ const MyListTarget = ({ kategori, logo, target, pj }) => {
         }}>
           <Text style={{
             fontFamily: fonts.primary[400],
-            fontSize: 14,
+            fontSize: 13,
             color: colors.primary
           }}>PJ</Text>
           <Text style={{
             fontFamily: fonts.primary.normal,
-            fontSize: 30,
+            fontSize: 22,
             color: warnaPJ
           }}>{pj}%</Text>
         </View>
       </View>
-    </>
+    </TouchableOpacity>
   )
 }
 
@@ -115,14 +115,28 @@ export default function Home({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [waktu, setWaktu] = useState({
     tanggal_awal: moment().format('YYYY-MM-DD'),
-    tanggal_aakhir: moment().format('YYYY-MM-DD'),
+    tanggal_akhir: moment().format('YYYY-MM-DD'),
   });
+
+  const [sisaHari, setSisaHari] = useState(moment(waktu.tanggal_akhir).fromNow(true));
+  const [warnaHari, setWarnaHari] = useState(colors.hijau);
 
   const __getWaktu = () => {
 
     axios.post(apiURL + 'waktu').then(res => {
       console.log(res.data);
       setWaktu(res.data);
+      setSisaHari(moment(res.data.tanggal_akhir).fromNow(true));
+      let hari = parseInt(moment(res.data.tanggal_akhir).fromNow(true).split(" ")[0]);
+
+      if (hari >= res.data.hijau_min && hari <= res.data.hijau_max) {
+        setWarnaHari(colors.hijau);
+      } else if (hari >= res.data.kuning_min && hari <= res.data.kuning_max) {
+        setWarnaHari(colors.kuning);
+      } else if (hari >= res.data.merah_min && hari <= res.data.merah_max) {
+        setWarnaHari(colors.merah);
+      }
+
 
       setLoading(false);
 
@@ -202,84 +216,13 @@ export default function Home({ navigation }) {
         <Text style={{ fontFamily: fonts.primary.normal, color: colors.kuning, fontSize: 30, textAlign: 'center' }}>I</Text>
         <Text style={{ fontFamily: fonts.primary.normal, color: colors.kuning, fontSize: 30, textAlign: 'center' }}>B</Text>
       </View>
-      {/* header */}
-      <View style={{
 
-        flexDirection: 'row',
-      }}>
-        <View style={{
-          flex: 1,
-          paddingLeft: '7%',
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-          <Text style={{
-            fontFamily: fonts.primary.normal,
-            color: colors.primary,
-            fontWeight: '600',
-            fontSize: 35,
-            marginRight: 10,
-          }}>Beranda</Text>
-          <Icon type='ionicon' name='home' size={20} color={colors.primary} />
-        </View>
-        <TouchableOpacity onPress={btnKeluar} style={{
-          backgroundColor: colors.secondary,
-          height: 70,
-          width: 70,
-          borderBottomLeftRadius: 100,
-          justifyContent: 'flex-start',
-          alignItems: 'flex-end',
-          padding: 5
-        }}>
-          <Icon type='ionicon' name='log-out-outline' size={25} color={colors.white} />
-          <Text style={{
-            fontFamily: fonts.primary.normal,
-            color: colors.white,
-            fontSize: 15,
-          }}>Logout</Text>
-        </TouchableOpacity>
-      </View>
 
-      {/* user pengguna */}
-      <View style={{
-        marginHorizontal: '7%',
-        padding: 10,
-        borderWidth: 2,
-        borderColor: colors.primary,
-        backgroundColor: colors.secondary,
-        borderRadius: 20,
-        marginBottom: 10,
-        flexDirection: 'row'
-      }}>
-        <View>
-          <Image style={{
-            width: 60,
-            height: 60,
-            borderRadius: 40
-          }} source={{
-            uri: user.foto_user
-          }} />
-        </View>
-        <View style={{
-          left: 10,
-          justifyContent: 'center'
-        }}>
-          <Text style={{
-            fontFamily: fonts.primary[600],
-            fontSize: 20,
-            color: colors.white
-          }}>{user.nama_lengkap}</Text>
-          <Text style={{
-            fontFamily: fonts.primary[400],
-            fontSize: 15,
-            color: colors.white
-          }}>Jabatan : {user.jabatan}</Text>
-        </View>
-      </View>
+      <MyHeader />
 
 
       {/* coundown hari */}
-      <View style={{ flexDirection: 'row', paddingHorizontal: '7%', }}>
+      <View style={{ flexDirection: 'row', paddingHorizontal: '7%', marginTop: '4%', marginBottom: '4%' }}>
         <View style={{
           flex: 1,
           marginRight: 2,
@@ -291,12 +234,12 @@ export default function Home({ navigation }) {
         }}>
           <Text style={{
             fontFamily: fonts.primary.normal,
-            fontSize: 20,
+            fontSize: 16,
             color: colors.primary
           }}>Berjalan</Text>
           <Text style={{
             fontFamily: fonts.primary.normal,
-            fontSize: 35,
+            fontSize: 25,
             color: colors.hijau
           }}>{loading ? '0 Hari' : moment(waktu.tanggal_awal).toNow(true)}</Text>
         </View>
@@ -311,14 +254,14 @@ export default function Home({ navigation }) {
         }}>
           <Text style={{
             fontFamily: fonts.primary.normal,
-            fontSize: 20,
+            fontSize: 16,
             color: colors.primary
           }}>Sisa Hari</Text>
           <Text style={{
             fontFamily: fonts.primary.normal,
-            fontSize: 35,
-            color: colors.merah
-          }}>{loading ? '0 Hari' : moment(waktu.tanggal_akhir).fromNow(true)}</Text>
+            fontSize: 25,
+            color: warnaHari
+          }}>{loading ? '0 Hari' : sisaHari}</Text>
         </View>
       </View>
 
@@ -331,10 +274,18 @@ export default function Home({ navigation }) {
         flex: 1,
       }}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <MyListTarget kategori="Jayagiri" logo={require('../../assets/jayagiri.png')} target={parseFloat(data[0].target)} pj={parseFloat(data[0].pj)} />
-          <MyListTarget kategori="Villa" logo={require('../../assets/logo.png')} target={parseFloat(data[1].target)} pj={parseFloat(data[1].pj)} />
-          <MyListTarget kategori="RnV" logo={require('../../assets/rv.png')} target={parseFloat(data[2].target)} pj={parseFloat(data[1].pj)} />
-          <MyListTarget kategori="Keun" logo={require('../../assets/farm.png')} target={parseFloat(data[3].target)} pj={parseFloat(data[1].pj)} />
+          <MyListTarget onPress={() => navigation.navigate('PJKategori', {
+            kategori: 'Jayagiri'
+          })} kategori="Jayagiri" logo={require('../../assets/jayagiri.png')} target={parseFloat(data[0].target)} pj={parseFloat(data[0].pj)} />
+          <MyListTarget onPress={() => navigation.navigate('PJKategori', {
+            kategori: 'Villa'
+          })} kategori="Villa" logo={require('../../assets/logo.png')} target={parseFloat(data[1].target)} pj={parseFloat(data[1].pj)} />
+          <MyListTarget onPress={() => navigation.navigate('PJKategori', {
+            kategori: 'RnV'
+          })} kategori="RnV" logo={require('../../assets/rv.png')} target={parseFloat(data[2].target)} pj={parseFloat(data[1].pj)} />
+          <MyListTarget onPress={() => navigation.navigate('PJKategori', {
+            kategori: 'Kebun'
+          })} kategori="Kebun" logo={require('../../assets/farm.png')} target={parseFloat(data[3].target)} pj={parseFloat(data[1].pj)} />
         </ScrollView>
       </View>
 

@@ -96,7 +96,7 @@ export default function Pengguna({ navigation }) {
                         fontFamily: fonts.primary[800],
                         fontSize: 15,
                         color: colors.secondary
-                    }}>{item.level == 'Admin' ? 'Admin' : item.kategori} ( {item.jabatan} )</Text>
+                    }}>{item.kategori}</Text>
 
                     <Text style={{
                         fontFamily: fonts.primary[400],

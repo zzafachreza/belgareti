@@ -42,7 +42,8 @@ export default function Waktu({ navigation, route }) {
 
     const [kirim, setKirim] = useState({
         tanggal_awal: '',
-        tanggal_akhir: ''
+        tanggal_akhir: '',
+
     });
     const [loading, setLoading] = useState(false);
     const sendServer = () => {
@@ -174,6 +175,115 @@ export default function Waktu({ navigation, route }) {
                                         })
                                     }}
                                 />
+                            </View>
+                        </View>
+
+                        <Text style={{
+                            color: colors.black,
+                            fontFamily: fonts.primary.normal,
+                            marginVertical: 5,
+                            fontSize: 15
+                        }}>{`Warna Sisa Hari`}</Text>
+                        {/* hijau */}
+                        <View style={{
+                            flexDirection: 'row'
+                        }}>
+                            <View style={{
+                                width: 80,
+                                backgroundColor: colors.hijau,
+                                padding: 20,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Text style={{
+                                    color: colors.white,
+                                    fontFamily: fonts.secondary[600],
+                                    fontSize: 11
+                                }}>Hijau</Text>
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+                                <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Minimal" iconname="trending-down" keyboardType='number-pad' value={kirim.hijau_min} onChangeText={x => setKirim({ ...kirim, hijau_min: x })} />
+
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+
+
+                                <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Maksimal" iconname="trending-up" keyboardType='number-pad' value={kirim.hijau_max} onChangeText={x => setKirim({ ...kirim, hijau_max: x })} />
+
+                            </View>
+                        </View>
+                        {/* kuning */}
+                        <View style={{
+                            flexDirection: 'row'
+                        }}>
+                            <View style={{
+                                width: 80,
+                                backgroundColor: colors.kuning,
+                                padding: 20,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Text style={{
+                                    color: colors.white,
+                                    fontFamily: fonts.secondary[600],
+                                    fontSize: 11
+                                }}>Kuning</Text>
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+                                <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Minimal" iconname="trending-down" keyboardType='number-pad' value={kirim.kuning_min} onChangeText={x => setKirim({ ...kirim, kuning_min: x })} />
+
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+
+
+                                <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Maksimal" iconname="trending-up" keyboardType='number-pad' value={kirim.kuning_max} onChangeText={x => setKirim({ ...kirim, kuning_max: x })} />
+
+                            </View>
+                        </View>
+                        {/* merah */}
+                        <View style={{
+                            flexDirection: 'row'
+                        }}>
+                            <View style={{
+                                width: 80,
+                                backgroundColor: colors.merah,
+                                padding: 20,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Text style={{
+                                    color: colors.white,
+                                    fontFamily: fonts.secondary[600],
+                                    fontSize: 11
+                                }}>Merah</Text>
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+                                <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Minimal" iconname="trending-down" keyboardType='number-pad' value={kirim.merah_min} onChangeText={x => setKirim({ ...kirim, merah_min: x })} />
+
+                            </View>
+                            <View style={{
+                                flex: 1,
+                                paddingHorizontal: 5,
+                            }}>
+
+
+                                <MyInput textColor={colors.primary} colorIcon={colors.primary} label="Maksimal" iconname="trending-up" keyboardType='number-pad' value={kirim.merah_max} onChangeText={x => setKirim({ ...kirim, merah_max: x })} />
+
                             </View>
                         </View>
 
